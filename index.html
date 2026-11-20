@@ -1401,6 +1401,16 @@
       if (e.target.closest('a.brand')) return;
       nextSlide();
     });
+
+    // --- Clic droit n'importe où sur la page = slide précédent ---
+    document.addEventListener('contextmenu', (e) => {
+      if (e.target.closest('.btn')) return;
+      if (e.target.closest('img')) return;
+      if (e.target.closest('.lightbox-overlay')) return;
+      if (e.target.closest('a.brand')) return;
+      e.preventDefault();
+      prevSlide();
+    });
   </script>
 </body>
 </html>
