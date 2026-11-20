@@ -11,8 +11,8 @@
   <style>
     :root{
       --bg: #fff8ee;
-      --paper: rgba(255,255,255,0.72);
-      --paper-strong: rgba(255,255,255,0.9);
+      --paper: rgba(255,255,255,0.74);
+      --paper-strong: rgba(255,255,255,0.92);
       --ink: #22223b;
       --muted: #5d6077;
       --orange: #ff8c42;
@@ -24,7 +24,6 @@
       --line: rgba(34,34,59,0.12);
       --shadow: 0 18px 50px rgba(63, 44, 24, 0.12);
       --radius: 28px;
-      --radius-sm: 18px;
       --slide-w: min(1100px, 92vw);
     }
 
@@ -47,22 +46,22 @@
       position:fixed;
       inset:0;
       pointer-events:none;
-      opacity:.3;
+      opacity:.28;
       background-image:
         linear-gradient(rgba(34,34,59,0.03) 1px, transparent 1px),
         linear-gradient(90deg, rgba(34,34,59,0.03) 1px, transparent 1px);
-      background-size: 28px 28px;
-      mask-image: linear-gradient(to bottom, rgba(0,0,0,.85), rgba(0,0,0,.45));
+      background-size:28px 28px;
+      mask-image:linear-gradient(to bottom, rgba(0,0,0,.95), rgba(0,0,0,.45));
     }
 
     .floating-shape{
       position:fixed;
       border-radius:50%;
-      filter: blur(8px);
+      filter:blur(10px);
       opacity:.22;
       pointer-events:none;
       z-index:0;
-      animation: drift 16s ease-in-out infinite;
+      animation:drift 16s ease-in-out infinite;
     }
     .shape-1{width:180px;height:180px;background:var(--pink);top:8%;left:-40px;}
     .shape-2{width:220px;height:220px;background:var(--sky);bottom:12%;right:-70px;animation-delay:-5s;}
@@ -71,6 +70,36 @@
     @keyframes drift{
       0%,100%{transform:translateY(0) translateX(0) scale(1)}
       50%{transform:translateY(-20px) translateX(12px) scale(1.06)}
+    }
+
+    .sparkles{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:0;
+      overflow:hidden;
+    }
+    .sparkles span{
+      position:absolute;
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      background:radial-gradient(circle, rgba(255,255,255,.96), rgba(255,255,255,0));
+      animation:twinkle 4.8s linear infinite;
+      opacity:.65;
+    }
+    .sparkles span:nth-child(1){top:12%;left:16%;animation-delay:0s}
+    .sparkles span:nth-child(2){top:28%;left:76%;animation-delay:1s}
+    .sparkles span:nth-child(3){top:52%;left:12%;animation-delay:1.8s}
+    .sparkles span:nth-child(4){top:68%;left:84%;animation-delay:2.3s}
+    .sparkles span:nth-child(5){top:82%;left:36%;animation-delay:.7s}
+    .sparkles span:nth-child(6){top:18%;left:52%;animation-delay:2.8s}
+    .sparkles span:nth-child(7){top:72%;left:62%;animation-delay:3.1s}
+    .sparkles span:nth-child(8){top:40%;left:92%;animation-delay:1.4s}
+
+    @keyframes twinkle{
+      0%,100%{transform:scale(.5);opacity:.15}
+      50%{transform:scale(1.9);opacity:.8}
     }
 
     .app{
@@ -88,7 +117,7 @@
       justify-content:space-between;
       gap:1rem;
       padding:14px clamp(16px, 3vw, 28px);
-      backdrop-filter: blur(14px);
+      backdrop-filter:blur(14px);
       background:rgba(255,248,238,0.75);
       border-bottom:1px solid var(--line);
     }
@@ -110,8 +139,9 @@
         radial-gradient(circle at 35% 35%, #fff 0 10%, transparent 11%),
         radial-gradient(circle at 65% 35%, #fff 0 10%, transparent 11%),
         linear-gradient(180deg, var(--purple), var(--pink));
-      box-shadow: inset 0 -6px 0 rgba(0,0,0,.08), 0 10px 20px rgba(124,92,255,.25);
+      box-shadow:inset 0 -6px 0 rgba(0,0,0,.08), 0 10px 20px rgba(124,92,255,.25);
       position:relative;
+      animation:bob 2.6s ease-in-out infinite;
     }
     .robot-dot::before{
       content:"";
@@ -123,6 +153,11 @@
       bottom:9px;
       left:50%;
       transform:translateX(-50%);
+    }
+
+    @keyframes bob{
+      0%,100%{transform:translateY(0)}
+      50%{transform:translateY(-4px)}
     }
 
     .brand span{
@@ -149,17 +184,13 @@
       border:1px solid rgba(34,34,59,0.08);
       border-radius:999px;
       padding:12px 16px;
-      box-shadow: var(--shadow);
-      transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
+      box-shadow:var(--shadow);
+      transition:transform .2s ease, background .2s ease, box-shadow .2s ease;
     }
-    .btn:hover{transform:translateY(-2px) scale(1.02)}
+    .btn:hover{transform:translateY(-2px) scale(1.03)}
     .btn:active{transform:translateY(0) scale(.98)}
-    .btn.primary{
-      background:linear-gradient(135deg, var(--orange), var(--yellow));
-    }
-    .btn.secondary{
-      background:linear-gradient(135deg, #fff, #fff3e1);
-    }
+    .btn.primary{background:linear-gradient(135deg, var(--orange), var(--yellow))}
+    .btn.secondary{background:linear-gradient(135deg, #fff, #fff3e1)}
 
     .progress{
       display:flex;
@@ -189,7 +220,7 @@
     }
 
     main{
-      padding: clamp(18px, 3vw, 28px);
+      padding:clamp(18px, 3vw, 28px);
       display:grid;
       place-items:center;
     }
@@ -205,20 +236,32 @@
       padding:clamp(22px, 4vw, 42px);
       border-radius:var(--radius);
       background:
-        linear-gradient(180deg, rgba(255,255,255,0.82), rgba(255,255,255,0.74)),
+        linear-gradient(180deg, rgba(255,255,255,0.84), rgba(255,255,255,0.75)),
         linear-gradient(135deg, rgba(255,255,255,0.5), rgba(255,255,255,0.28));
-      backdrop-filter: blur(18px);
-      box-shadow: var(--shadow);
-      border:1px solid rgba(255,255,255,0.65);
+      backdrop-filter:blur(18px);
+      box-shadow:var(--shadow);
+      border:1px solid rgba(255,255,255,0.68);
       position:relative;
       overflow:hidden;
-      animation: slideIn .55s ease both;
+      animation:slideIn .7s cubic-bezier(.2,.8,.2,1) both;
+    }
+    .slide.active{display:grid}
+
+    @keyframes slideIn{
+      from{opacity:0;transform:perspective(1000px) rotateX(6deg) translateY(28px) scale(.975)}
+      to{opacity:1;transform:perspective(1000px) rotateX(0) translateY(0) scale(1)}
     }
 
-    .slide.active{display:grid}
-    @keyframes slideIn{
-      from{opacity:0;transform:translateY(18px) scale(.985)}
-      to{opacity:1;transform:translateY(0) scale(1)}
+    .slide::before{
+      content:"";
+      position:absolute;
+      inset:-40% auto auto -10%;
+      width:240px;
+      height:240px;
+      border-radius:50%;
+      background:radial-gradient(circle, rgba(255,255,255,.62), rgba(255,255,255,0));
+      animation:orbFloat 9s ease-in-out infinite;
+      pointer-events:none;
     }
 
     .slide::after{
@@ -230,6 +273,16 @@
       border-radius:36px;
       background:linear-gradient(135deg, rgba(255,140,66,.18), rgba(124,92,255,.14));
       transform:rotate(18deg);
+      animation:floatCorner 7s ease-in-out infinite;
+    }
+
+    @keyframes orbFloat{
+      0%,100%{transform:translate(0,0) scale(1)}
+      50%{transform:translate(30px,20px) scale(1.08)}
+    }
+    @keyframes floatCorner{
+      0%,100%{transform:rotate(18deg) translateY(0)}
+      50%{transform:rotate(24deg) translateY(-10px)}
     }
 
     .slide-grid{
@@ -241,9 +294,17 @@
     }
 
     .title-slide{
-      grid-template-columns: 1.1fr .9fr;
+      grid-template-columns:1.1fr .9fr;
       align-items:center;
       min-height:70vh;
+    }
+    .content-two{
+      grid-template-columns:1fr 1fr;
+      align-items:start;
+    }
+    .demo-layout{
+      grid-template-columns:1.05fr .95fr;
+      align-items:center;
     }
 
     .eyebrow{
@@ -266,28 +327,23 @@
       margin:0;
       letter-spacing:-.02em;
     }
-
     h1{
       font-size:clamp(3rem, 8vw, 6.4rem);
       max-width:8ch;
     }
-
     h2{
       font-size:clamp(2.2rem, 5vw, 4.2rem);
       max-width:12ch;
     }
-
     h3{
       font-size:clamp(1.35rem, 2vw, 1.8rem);
     }
-
     p{
       margin:0;
       font-size:clamp(1rem, 1.8vw, 1.2rem);
       line-height:1.6;
       color:var(--muted);
     }
-
     .lead{
       max-width:58ch;
       font-size:clamp(1.05rem, 2vw, 1.25rem);
@@ -306,6 +362,8 @@
       box-shadow:0 20px 40px rgba(0,0,0,.12);
       border:1px solid rgba(34,34,59,.08);
       background:#fff;
+      transform-origin:center;
+      animation:cardFloat 4.2s ease-in-out infinite;
     }
 
     .robot img,
@@ -316,9 +374,9 @@
       object-fit:cover;
     }
 
-    .content-two{
-      grid-template-columns: 1fr 1fr;
-      align-items:start;
+    @keyframes cardFloat{
+      0%,100%{transform:translateY(0) rotate(0deg)}
+      50%{transform:translateY(-10px) rotate(-1deg)}
     }
 
     .big-list{
@@ -334,9 +392,14 @@
       align-items:start;
       padding:16px 18px;
       border-radius:22px;
-      background:rgba(255,255,255,.68);
+      background:rgba(255,255,255,.7);
       border:1px solid rgba(34,34,59,.08);
       box-shadow:0 10px 24px rgba(0,0,0,.05);
+      transition:transform .22s ease, box-shadow .22s ease;
+    }
+    .big-item:hover{
+      transform:translateY(-4px) scale(1.01);
+      box-shadow:0 16px 30px rgba(0,0,0,.09);
     }
 
     .icon{
@@ -349,20 +412,26 @@
       font-weight:800;
       color:var(--ink);
       background:linear-gradient(135deg, var(--yellow), #fff1bc);
+      animation:iconPulse 2.8s ease-in-out infinite;
+    }
+
+    @keyframes iconPulse{
+      0%,100%{transform:scale(1)}
+      50%{transform:scale(1.08)}
     }
 
     .visual-box{
       border-radius:26px;
       min-height:320px;
       background:
-        linear-gradient(180deg, rgba(255,255,255,.75), rgba(255,255,255,.6)),
+        linear-gradient(180deg, rgba(255,255,255,.76), rgba(255,255,255,.62)),
         radial-gradient(circle at 20% 20%, rgba(123,92,255,.18), transparent 24%),
         radial-gradient(circle at 70% 30%, rgba(255,111,174,.18), transparent 24%),
         radial-gradient(circle at 50% 90%, rgba(255,209,102,.22), transparent 32%);
       border:1px solid rgba(34,34,59,.08);
       position:relative;
       overflow:hidden;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.6);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.6);
     }
 
     .image-box{
@@ -371,7 +440,6 @@
       display:grid;
       place-items:center;
     }
-
     .image-box img{
       width:100%;
       height:100%;
@@ -383,11 +451,6 @@
       background:#fff;
     }
 
-    .demo-layout{
-      grid-template-columns: 1.05fr .95fr;
-      align-items:center;
-    }
-
     .demo-image{
       min-height:380px;
       border-radius:28px;
@@ -395,6 +458,7 @@
       border:1px solid rgba(34,34,59,.08);
       box-shadow:0 18px 40px rgba(0,0,0,.12);
       background:#fff;
+      animation:cardFloat 4s ease-in-out infinite;
     }
 
     .steps{
@@ -402,15 +466,18 @@
       gap:12px;
       margin-top:14px;
     }
-
     .step{
       padding:15px 16px;
       border-radius:18px;
-      background:rgba(255,255,255,.7);
+      background:rgba(255,255,255,.72);
       border:1px solid rgba(34,34,59,.08);
       font-weight:700;
+      transition:transform .2s ease, background .2s ease;
     }
-
+    .step:hover{
+      transform:translateX(6px);
+      background:rgba(255,255,255,.96);
+    }
     .step strong{color:var(--ink)}
 
     .code-box{
@@ -419,12 +486,23 @@
       border-radius:22px;
       background:#1f2331;
       color:#f6f7fb;
-      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-family:ui-monospace, SFMono-Regular, Menlo, monospace;
       font-size:.98rem;
       line-height:1.7;
       box-shadow:0 16px 28px rgba(31,35,49,.22);
       overflow:auto;
       white-space:pre-wrap;
+      position:relative;
+    }
+    .code-box::after{
+      content:"● ● ●";
+      position:absolute;
+      top:10px;
+      right:16px;
+      color:#ffb86b;
+      font-size:.82rem;
+      letter-spacing:.18em;
+      opacity:.9;
     }
 
     .quiz{
@@ -432,13 +510,14 @@
       gap:14px;
       margin-top:16px;
     }
-
     .qa{
       padding:18px;
       border-radius:22px;
-      background:rgba(255,255,255,.72);
+      background:rgba(255,255,255,.74);
       border:1px solid rgba(34,34,59,.08);
+      transition:transform .22s ease;
     }
+    .qa:hover{transform:translateY(-4px)}
 
     .footer-note{
       margin-top:18px;
@@ -446,21 +525,81 @@
       color:var(--purple);
     }
 
-    .stagger > *{
-      opacity:0;
-      transform:translateY(12px);
-      animation: reveal .55s ease forwards;
+    .slide-content > *{
+      /* opacity:0; */
+      will-change:transform, opacity;
     }
-    .stagger > *:nth-child(1){animation-delay:.08s}
-    .stagger > *:nth-child(2){animation-delay:.16s}
-    .stagger > *:nth-child(3){animation-delay:.24s}
-    .stagger > *:nth-child(4){animation-delay:.32s}
-    .stagger > *:nth-child(5){animation-delay:.4s}
-    .stagger > *:nth-child(6){animation-delay:.48s}
-    .stagger > *:nth-child(7){animation-delay:.56s}
 
-    @keyframes reveal{
-      to{opacity:1;transform:translateY(0)}
+    .slide.active .anim-pop{
+      animation:popIn .95s cubic-bezier(.18,1.12,.28,1) both;
+    }
+    .slide.active .anim-title{
+      animation:titleBurst 1s cubic-bezier(.18,1.08,.24,1) both;
+    }
+    .slide.active .anim-left{
+      animation:slideLeftIn .9s cubic-bezier(.2,.9,.2,1) both;
+    }
+    .slide.active .anim-right{
+      animation:slideRightIn .9s cubic-bezier(.2,.9,.2,1) both;
+    }
+    .slide.active .anim-up{
+      animation:fadeUpIn .8s cubic-bezier(.22,.8,.22,1) both;
+    }
+    .slide.active .anim-zoom{
+      animation:zoomReveal 1s cubic-bezier(.18,.88,.2,1) both;
+    }
+    .slide.active .anim-flip{
+      animation:flipSoft 1s cubic-bezier(.2,.9,.2,1) both;
+      transform-origin:center;
+      backface-visibility:hidden;
+    }
+
+    .delay-1{animation-delay:.08s !important}
+    .delay-2{animation-delay:.18s !important}
+    .delay-3{animation-delay:.28s !important}
+    .delay-4{animation-delay:.38s !important}
+    .delay-5{animation-delay:.48s !important}
+    .delay-6{animation-delay:.58s !important}
+    .delay-7{animation-delay:.68s !important}
+
+    @keyframes popIn{
+      0%{opacity:0;transform:scale(.72) rotate(-7deg)}
+      65%{opacity:1;transform:scale(1.06) rotate(1deg)}
+      100%{opacity:1;transform:scale(1) rotate(0)}
+    }
+
+    @keyframes titleBurst{
+      0%{opacity:0;transform:translateY(48px) scale(.72) rotate(-3deg);filter:blur(6px)}
+      55%{opacity:1;transform:translateY(-6px) scale(1.06) rotate(.8deg);filter:blur(0)}
+      100%{opacity:1;transform:translateY(0) scale(1) rotate(0);filter:blur(0)}
+    }
+
+    @keyframes slideLeftIn{
+      0%{opacity:0;transform:translateX(-90px) rotate(-2deg)}
+      70%{opacity:1;transform:translateX(8px) rotate(.4deg)}
+      100%{opacity:1;transform:translateX(0) rotate(0)}
+    }
+
+    @keyframes slideRightIn{
+      0%{opacity:0;transform:translateX(90px) rotate(2deg)}
+      70%{opacity:1;transform:translateX(-8px) rotate(-.4deg)}
+      100%{opacity:1;transform:translateX(0) rotate(0)}
+    }
+
+    @keyframes fadeUpIn{
+      0%{opacity:0;transform:translateY(44px);filter:blur(4px)}
+      100%{opacity:1;transform:translateY(0);filter:blur(0)}
+    }
+
+    @keyframes zoomReveal{
+      0%{opacity:0;transform:scale(.82)}
+      65%{opacity:1;transform:scale(1.03)}
+      100%{opacity:1;transform:scale(1)}
+    }
+
+    @keyframes flipSoft{
+      0%{opacity:0;transform:perspective(800px) rotateY(26deg) scale(.94)}
+      100%{opacity:1;transform:perspective(800px) rotateY(0) scale(1)}
     }
 
     .slide-nav-mobile{
@@ -480,13 +619,144 @@
       box-shadow:0 4px 10px rgba(0,0,0,.05);
     }
 
+    .life-demo{
+      display:grid;
+      gap:16px;
+      padding:22px;
+      align-content:center;
+      min-height:100%;
+    }
+
+    .scene{
+      background:rgba(255,255,255,.84);
+      border:1px solid rgba(34,34,59,.08);
+      border-radius:24px;
+      padding:18px;
+      min-height:140px;
+      position:relative;
+      overflow:hidden;
+      box-shadow:0 12px 26px rgba(0,0,0,.05);
+    }
+    .scene h3{
+      margin-bottom:8px;
+      position:relative;
+      z-index:2;
+    }
+    .scene p{position:relative;z-index:2}
+
+    .car-road{
+      position:absolute;
+      left:0;
+      right:0;
+      bottom:20px;
+      height:8px;
+      background:repeating-linear-gradient(90deg, #cfd5de 0 18px, transparent 18px 34px);
+      opacity:.9;
+    }
+
+    .car{
+      position:absolute;
+      left:-80px;
+      bottom:28px;
+      width:74px;
+      height:34px;
+      border-radius:18px 22px 12px 12px;
+      background:linear-gradient(135deg, var(--sky), var(--purple));
+      animation:drive 4.8s ease-in-out infinite;
+      box-shadow:0 12px 20px rgba(108,103,255,.2);
+    }
+    .car::before,.car::after{
+      content:"";
+      position:absolute;
+      width:16px;
+      height:16px;
+      border-radius:50%;
+      background:#283046;
+      bottom:-8px;
+      box-shadow:inset 0 0 0 4px #9098ad;
+    }
+    .car::before{left:10px}
+    .car::after{right:10px}
+
+    @keyframes drive{
+      0%{left:-80px;transform:translateY(0)}
+      45%{left:calc(100% - 110px);transform:translateY(-2px)}
+      50%{left:calc(100% - 110px);transform:scaleX(1)}
+      51%{transform:scaleX(-1)}
+      95%{left:-20px;transform:scaleX(-1) translateY(-2px)}
+      100%{left:-80px;transform:scaleX(1)}
+    }
+
+    .lamp-scene{
+      display:flex;
+      align-items:end;
+      justify-content:space-between;
+      height:100%;
+      min-height:120px;
+      position:relative;
+    }
+
+    .sun-moon{
+      position:absolute;
+      top:10px;
+      right:18px;
+      width:46px;
+      height:46px;
+      border-radius:50%;
+      background:var(--yellow);
+      box-shadow:0 0 26px rgba(255,209,102,.6);
+      animation:dayNight 4.6s ease-in-out infinite;
+    }
+
+    @keyframes dayNight{
+      0%,35%{background:var(--yellow);box-shadow:0 0 26px rgba(255,209,102,.6);transform:scale(1)}
+      50%,85%{background:#dfe6ff;box-shadow:0 0 26px rgba(124,92,255,.25);transform:scale(.92)}
+      100%{background:var(--yellow);box-shadow:0 0 26px rgba(255,209,102,.6);transform:scale(1)}
+    }
+
+    .pole{
+      width:10px;
+      height:90px;
+      background:#7c8796;
+      border-radius:999px;
+      margin-left:26px;
+      position:relative;
+    }
+    .pole::before{
+      content:"";
+      position:absolute;
+      top:8px;
+      left:-18px;
+      width:42px;
+      height:22px;
+      border-radius:22px 22px 8px 8px;
+      background:#9ca7b7;
+    }
+
+    .lamp-glow{
+      position:absolute;
+      top:26px;
+      left:-36px;
+      width:78px;
+      height:78px;
+      border-radius:50%;
+      background:radial-gradient(circle, rgba(255,230,90,.75), rgba(255,230,90,0));
+      opacity:0;
+      animation:lampOn 4.6s ease-in-out infinite;
+    }
+
+    @keyframes lampOn{
+      0%,35%{opacity:0}
+      50%,85%{opacity:1}
+      100%{opacity:0}
+    }
+
     @media (max-width: 900px){
       .title-slide,
       .content-two,
       .demo-layout{
         grid-template-columns:1fr;
       }
-
       .robot-visual{min-height:280px}
       .slide{min-height:auto}
     }
@@ -513,6 +783,11 @@
   <div class="floating-shape shape-2"></div>
   <div class="floating-shape shape-3"></div>
 
+  <div class="sparkles" aria-hidden="true">
+    <span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span>
+  </div>
+
   <div class="app">
     <header class="topbar" aria-label="Barre de navigation du diaporama">
       <a href="#" class="brand" aria-label="Accueil du diaporama">
@@ -536,17 +811,17 @@
       <section class="deck" aria-label="Slides de présentation">
 
         <article class="slide active" data-slide="1">
-          <div class="slide-grid title-slide">
-            <div class="stagger">
-              <h1>Découvrons la robotique</h1>
-              <p class="lead">
+          <div class="slide-grid title-slide slide-content">
+            <div>
+              <h1 class="anim-title delay-1">Découvrons la robotique</h1>
+              <p class="lead anim-up delay-3">
                 Un robot, c’est une machine qui <strong>sent</strong>, <strong>réfléchit</strong> et <strong>agit</strong>.
-                Aujourd’hui, on va comprendre l’essentiel… puis allumer une LED.
+                Aujourd’hui, on va comprendre l’essentiel puis réaliser notre premier projet.
               </p>
             </div>
 
             <div class="robot-visual">
-              <div class="robot" aria-hidden="true">
+              <div class="robot anim-zoom delay-2" aria-hidden="true">
                 <img src="./image/robot.png" alt="Image d'un robot" />
               </div>
             </div>
@@ -554,79 +829,79 @@
         </article>
 
         <article class="slide" data-slide="2">
-          <div class="slide-grid content-two">
-            <div class="stagger">
-              <div class="eyebrow">1. C’est quoi un robot ?</div>
-              <h2>Un robot fait 3 choses</h2>
+          <div class="slide-grid content-two slide-content">
+            <div>
+              <div class="eyebrow anim-pop delay-1">1. C’est quoi un robot ?</div>
+              <h2 class="anim-title delay-2">Un robot fait 3 choses</h2>
               <div class="big-list">
-                <div class="big-item">
+                <div class="big-item anim-left delay-3">
                   <div class="icon">👀</div>
                   <div>
                     <h3>Il observe</h3>
-                    <p>Avec des <strong>capteurs</strong>, il reçoit des informations : lumière, distance, son, température…</p>
+                    <p>Avec des <strong>capteurs</strong>, il reçoit des informations : lumière, distance, son, température.</p>
                   </div>
                 </div>
-                <div class="big-item">
+                <div class="big-item anim-left delay-4">
                   <div class="icon">🧠</div>
                   <div>
                     <h3>Il réfléchit</h3>
-                    <p>Avec une <strong>carte électronique</strong>, il suit des instructions qu’on appelle un <strong>programme</strong>.</p>
+                    <p>Avec une <strong>carte électronique</strong>, il suit un programme.</p>
                   </div>
                 </div>
-                <div class="big-item">
+                <div class="big-item anim-left delay-5">
                   <div class="icon">🦾</div>
                   <div>
                     <h3>Il agit</h3>
-                    <p>Avec des <strong>actionneurs</strong>, il bouge, allume, sonne ou tourne.</p>
+                    <p>Avec des <strong>actionneurs</strong>, il bouge, allume ou tourne.</p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div class="visual-box image-box" aria-hidden="true">
-              <img src="./image/robot.img" alt="Illustration d'un robot" />
+            <div class="visual-box image-box anim-right delay-3" aria-hidden="true">
+              <img src="./image/illustration1.png" alt="Illustration d'un robot" />
             </div>
           </div>
         </article>
 
         <article class="slide" data-slide="3">
-          <div class="slide-grid content-two">
-            <div class="stagger">
-              <div class="eyebrow">2. Les composants clés</div>
-              <h2>Les 4 pièces à retenir</h2>
+          <div class="slide-grid content-two slide-content">
+            <div>
+              <div class="eyebrow anim-pop delay-1">2. Les composants clés</div>
+              <h2 class="anim-title delay-2">Les 4 pièces à retenir</h2>
               <div class="big-list">
-                <div class="big-item">
+                <div class="big-item anim-left delay-3">
                   <div class="icon">🔋</div>
                   <div>
                     <h3>Énergie</h3>
                     <p>Il faut de l’électricité pour faire fonctionner le robot.</p>
                   </div>
                 </div>
-                <div class="big-item">
+                <div class="big-item anim-left delay-4">
                   <div class="icon">💻</div>
                   <div>
                     <h3>Carte programmable</h3>
-                    <p>C’est le “cerveau”. Exemple : Arduino.</p>
+                    <p>C’est le cerveau du robot. Exemple : Arduino.</p>
                   </div>
                 </div>
-                <div class="big-item">
+                <div class="big-item anim-left delay-5">
                   <div class="icon">📡</div>
                   <div>
                     <h3>Capteurs</h3>
-                    <p>Ils aident le robot à “sentir” le monde.</p>
+                    <p>Ils aident le robot à sentir le monde autour de lui.</p>
                   </div>
                 </div>
-                <div class="big-item">
+                <div class="big-item anim-left delay-6">
                   <div class="icon">💡</div>
                   <div>
                     <h3>Actionneurs</h3>
-                    <p>LED, moteur, buzzer : ce sont les parties qui font quelque chose.</p>
+                    <p>LED, moteur, buzzer : ils font une action visible ou audible.</p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div class="visual-box" aria-hidden="true" style="display:grid;place-items:center;padding:24px;">
+            <div class="visual-box anim-flip delay-3" aria-hidden="true" style="display:grid;place-items:center;padding:24px;">
               <div style="width:100%; display:grid; gap:14px;">
                 <div class="big-item"><div class="icon">🔋</div><div><h3>Énergie</h3><p>Elle alimente le robot.</p></div></div>
                 <div class="big-item"><div class="icon">💻</div><div><h3>Carte</h3><p>Elle commande le robot.</p></div></div>
@@ -638,77 +913,85 @@
         </article>
 
         <article class="slide" data-slide="4">
-          <div class="slide-grid content-two">
-            <div class="stagger">
-              <div class="eyebrow">3. Exemples faciles</div>
-              <h2>Dans la vraie vie</h2>
+          <div class="slide-grid content-two slide-content">
+            <div>
+              <div class="eyebrow anim-pop delay-1">3. Exemples dans la vraie vie</div>
+              <h2 class="anim-title delay-2">Des exemples proches des enfants</h2>
               <div class="big-list">
-                <div class="big-item">
-                  <div class="icon">🤖</div>
-                  <div>
-                    <h3>Robot aspirateur</h3>
-                    <p>Il détecte les obstacles et change de direction.</p>
-                  </div>
-                </div>
-                <div class="big-item">
-                  <div class="icon">🚦</div>
-                  <div>
-                    <h3>Feu intelligent</h3>
-                    <p>Il peut changer selon ce qu’il détecte.</p>
-                  </div>
-                </div>
-                <div class="big-item">
+                <div class="big-item anim-left delay-3">
                   <div class="icon">🚗</div>
                   <div>
-                    <h3>Voiture robot</h3>
-                    <p>Elle avance, s’arrête ou tourne selon ses capteurs.</p>
+                    <h3>Voiture télécommandée</h3>
+                    <p>Elle reçoit un ordre et elle avance, recule ou tourne.</p>
+                  </div>
+                </div>
+                <div class="big-item anim-left delay-4">
+                  <div class="icon">💡</div>
+                  <div>
+                    <h3>Lampe qui s’allume quand il fait sombre</h3>
+                    <p>Elle détecte qu’il n’y a plus assez de lumière puis elle s’allume.</p>
                   </div>
                 </div>
               </div>
+              <p class="footer-note anim-up delay-5">Un robot ou un système intelligent reçoit une information puis agit.</p>
             </div>
 
-            <div class="visual-box" aria-hidden="true" style="display:grid;place-items:center;padding:24px;">
-              <div style="text-align:center;">
-                <div style="font-size:5rem;">🤖</div>
-                <h3>Un robot suit des ordres</h3>
-                <p style="margin-top:10px;">Il reçoit une information, il la comprend, puis il agit.</p>
+            <div class="visual-box anim-zoom delay-3" aria-hidden="true">
+              <div class="life-demo">
+                <div class="scene">
+                  <h3>🚗 Voiture télécommandée</h3>
+                  <p>La commande envoie un ordre à la voiture.</p>
+                  <div class="car-road"></div>
+                  <div class="car"></div>
+                </div>
+
+                <div class="scene">
+                  <h3>💡 Lampe automatique</h3>
+                  <p>Quand il fait sombre, la lampe s’allume.</p>
+                  <div class="lamp-scene">
+                    <div class="pole">
+                      <div class="lamp-glow"></div>
+                    </div>
+                    <div class="sun-moon"></div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </article>
 
         <article class="slide" data-slide="5">
-          <div class="slide-grid demo-layout">
-            <div class="stagger">
-              <div class="eyebrow">4. Démonstration</div>
-              <h2>Allumer une LED</h2>
-              <p class="lead">
+          <div class="slide-grid demo-layout slide-content">
+            <div>
+              <div class="eyebrow anim-pop delay-1">4. Démonstration</div>
+              <h2 class="anim-title delay-2">Allumer une LED</h2>
+              <p class="lead anim-up delay-3">
                 Une LED est une petite lumière. On la branche à la carte pour lui dire :
                 <strong>allume-toi</strong>.
               </p>
 
               <div class="steps">
-                <div class="step"><strong>1.</strong> On relie la LED à la carte.</div>
-                <div class="step"><strong>2.</strong> On ajoute une résistance pour protéger la LED.</div>
-                <div class="step"><strong>3.</strong> On branche le tout correctement.</div>
-                <div class="step"><strong>4.</strong> On envoie le programme.</div>
-                <div class="step"><strong>5.</strong> La LED s’allume.</div>
+                <div class="step anim-left delay-4"><strong>1.</strong> On relie la LED à la carte.</div>
+                <div class="step anim-left delay-5"><strong>2.</strong> On ajoute une résistance pour protéger la LED.</div>
+                <div class="step anim-left delay-6"><strong>3.</strong> On branche le tout correctement.</div>
+                <div class="step anim-left delay-7"><strong>4.</strong> On envoie le programme.</div>
+                <div class="step anim-left delay-7"><strong>5.</strong> La LED s’allume.</div>
               </div>
             </div>
 
-            <div class="demo-image" aria-hidden="true">
-              <img src="./image/branchelent _led.img" alt="Branchement d'une LED sur une carte" />
+            <div class="demo-image anim-right delay-3" aria-hidden="true">
+              <img src="./image/branchement.png" alt="Branchement d'une LED sur une carte" />
             </div>
           </div>
         </article>
 
         <article class="slide" data-slide="6">
-          <div class="slide-grid content-two">
-            <div class="stagger">
-              <div class="eyebrow">5. Le code complet</div>
-              <h2>Programme pour allumer une LED</h2>
-              <p class="lead">Voici un programme complet et très simple pour allumer une LED sur la broche 8.</p>
-              <div class="code-box" aria-label="Code complet Arduino">
+          <div class="slide-grid content-two slide-content">
+            <div>
+              <div class="eyebrow anim-pop delay-1">5. Le code complet</div>
+              <h2 class="anim-title delay-2">Programme pour allumer une LED</h2>
+              <p class="lead anim-up delay-3">Voici un programme Arduino complet et très simple pour allumer une LED sur la broche 8.</p>
+              <div class="code-box anim-left delay-4" aria-label="Code complet Arduino">
 void setup() {
   pinMode(8, OUTPUT);
   digitalWrite(8, HIGH);
@@ -719,44 +1002,44 @@ void loop() {
               </div>
             </div>
 
-            <div class="visual-box" aria-hidden="true" style="display:grid;place-items:center;">
+            <div class="visual-box anim-flip delay-3" aria-hidden="true" style="display:grid;place-items:center;">
               <div style="text-align:center; padding:24px;">
-                <div style="font-size:5rem; line-height:1;">💡</div>
-                <h3 style="margin-top:8px;">Explication</h3>
+                <div style="font-size:5rem; line-height:1; animation:iconPulse 1.6s ease-in-out infinite;">💡</div>
+                <h3 style="margin-top:8px;">Explication simple</h3>
                 <p><strong>setup()</strong> prépare la carte au début.</p>
-                <p><strong>pinMode(8, OUTPUT)</strong> : la broche 8 envoie un ordre.</p>
+                <p><strong>pinMode(8, OUTPUT)</strong> : la broche 8 peut envoyer un ordre.</p>
                 <p><strong>digitalWrite(8, HIGH)</strong> : la LED s’allume.</p>
-                <p><strong>loop()</strong> : ici, il n’y a rien à répéter.</p>
+                <p><strong>loop()</strong> : rien à répéter ici.</p>
               </div>
             </div>
           </div>
         </article>
 
         <article class="slide" data-slide="7">
-          <div class="slide-grid content-two">
-            <div class="stagger">
-              <div class="eyebrow">6. À retenir</div>
-              <h2>L’essentiel de la robotique</h2>
+          <div class="slide-grid content-two slide-content">
+            <div>
+              <div class="eyebrow anim-pop delay-1">6. À retenir</div>
+              <h2 class="anim-title delay-2">L’essentiel de la robotique</h2>
               <div class="quiz">
-                <div class="qa">
+                <div class="qa anim-left delay-3">
                   <h3>Un robot, c’est quoi ?</h3>
-                  <p>Une machine qui peut recevoir une information, la traiter, puis agir.</p>
+                  <p>Une machine qui reçoit une information, la comprend puis agit.</p>
                 </div>
-                <div class="qa">
-                  <h3>Les composants importants</h3>
-                  <p>Énergie, carte programmable, capteurs, actionneurs.</p>
+                <div class="qa anim-left delay-4">
+                  <h3>Les éléments importants</h3>
+                  <p>Énergie, carte programmable, capteurs et actionneurs.</p>
                 </div>
-                <div class="qa">
-                  <h3>Ce qu’on a vu aujourd’hui</h3>
-                  <p>Comment brancher et allumer une LED avec une carte.</p>
+                <div class="qa anim-left delay-5">
+                  <h3>Ce qu’on a appris</h3>
+                  <p>Comment une carte peut allumer une LED grâce à un programme.</p>
                 </div>
               </div>
-              <p class="footer-note">Bravo ! Vous connaissez maintenant la base de la robotique.</p>
+              <p class="footer-note anim-up delay-6">Bravo ! Vous connaissez maintenant la base de la robotique.</p>
             </div>
 
-            <div class="visual-box" aria-hidden="true" style="display:grid;place-items:center;">
+            <div class="visual-box anim-zoom delay-3" aria-hidden="true" style="display:grid;place-items:center;">
               <div style="text-align:center; padding:20px;">
-                <div style="font-size:5.2rem;">🎉</div>
+                <div style="font-size:5.2rem; animation:iconPulse 1.5s ease-in-out infinite;">🎉</div>
                 <h3>Fin</h3>
                 <p>Merci à tous</p>
                 <p>Navigation : <kbd>←</kbd> <kbd>→</kbd></p>
@@ -785,18 +1068,22 @@ void loop() {
 
     let current = 0;
 
+    function restartAnimations(slide){
+      const animated = slide.querySelectorAll('.anim-pop, .anim-title, .anim-left, .anim-right, .anim-up, .anim-zoom, .anim-flip');
+      animated.forEach(el => {
+        el.style.animation = 'none';
+        void el.offsetWidth;
+        el.style.animation = '';
+      });
+    }
+
     function updateSlides() {
       slides.forEach((slide, index) => {
         slide.classList.toggle('active', index === current);
-        if(index === current){
-          const stagger = slide.querySelector('.stagger');
-          if(stagger){
-            stagger.classList.remove('stagger');
-            void stagger.offsetWidth;
-            stagger.classList.add('stagger');
-          }
-        }
       });
+
+      const activeSlide = slides[current];
+      restartAnimations(activeSlide);
 
       const percent = ((current + 1) / slides.length) * 100;
       progressFill.style.width = percent + '%';
