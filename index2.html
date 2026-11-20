@@ -1,0 +1,1908 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Base de robotique — séance enfants 7 à 14 ans</title>
+    <meta
+      name="description"
+      content="Slides simples et visuels pour expliquer la robotique à des enfants de 7 à 14 ans en une séance de 1h30."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Nunito:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #fff8ee;
+        --paper: rgba(255, 255, 255, 0.74);
+        --paper-strong: rgba(255, 255, 255, 0.92);
+        --ink: #22223b;
+        --muted: #5d6077;
+        --orange: #ff8c42;
+        --yellow: #ffd166;
+        --mint: #7bd389;
+        --sky: #6ecbff;
+        --pink: #ff6fae;
+        --purple: #7c5cff;
+        --line: rgba(34, 34, 59, 0.12);
+        --shadow: 0 18px 50px rgba(63, 44, 24, 0.12);
+        --radius: 28px;
+        --slide-w: min(1100px, 92vw);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        font-family: "Nunito", sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(
+            circle at 15% 20%,
+            rgba(255, 209, 102, 0.35),
+            transparent 18%
+          ),
+          radial-gradient(
+            circle at 80% 15%,
+            rgba(110, 203, 255, 0.28),
+            transparent 18%
+          ),
+          radial-gradient(
+            circle at 85% 80%,
+            rgba(123, 211, 137, 0.24),
+            transparent 20%
+          ),
+          linear-gradient(180deg, #fff8ee 0%, #fff4df 100%);
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0.28;
+        background-image:
+          linear-gradient(rgba(34, 34, 59, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(34, 34, 59, 0.03) 1px, transparent 1px);
+        background-size: 28px 28px;
+        mask-image: linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0.95),
+          rgba(0, 0, 0, 0.45)
+        );
+      }
+
+      .floating-shape {
+        position: fixed;
+        border-radius: 50%;
+        filter: blur(10px);
+        opacity: 0.22;
+        pointer-events: none;
+        z-index: 0;
+        animation: drift 16s ease-in-out infinite;
+      }
+      .shape-1 {
+        width: 180px;
+        height: 180px;
+        background: var(--pink);
+        top: 8%;
+        left: -40px;
+      }
+      .shape-2 {
+        width: 220px;
+        height: 220px;
+        background: var(--sky);
+        bottom: 12%;
+        right: -70px;
+        animation-delay: -5s;
+      }
+      .shape-3 {
+        width: 130px;
+        height: 130px;
+        background: var(--yellow);
+        top: 45%;
+        right: 10%;
+        animation-delay: -9s;
+      }
+
+      @keyframes drift {
+        0%,
+        100% {
+          transform: translateY(0) translateX(0) scale(1);
+        }
+        50% {
+          transform: translateY(-20px) translateX(12px) scale(1.06);
+        }
+      }
+
+      .sparkles {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        overflow: hidden;
+      }
+      .sparkles span {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.96),
+          rgba(255, 255, 255, 0)
+        );
+        animation: twinkle 4.8s linear infinite;
+        opacity: 0.65;
+      }
+      .sparkles span:nth-child(1) {
+        top: 12%;
+        left: 16%;
+        animation-delay: 0s;
+      }
+      .sparkles span:nth-child(2) {
+        top: 28%;
+        left: 76%;
+        animation-delay: 1s;
+      }
+      .sparkles span:nth-child(3) {
+        top: 52%;
+        left: 12%;
+        animation-delay: 1.8s;
+      }
+      .sparkles span:nth-child(4) {
+        top: 68%;
+        left: 84%;
+        animation-delay: 2.3s;
+      }
+      .sparkles span:nth-child(5) {
+        top: 82%;
+        left: 36%;
+        animation-delay: 0.7s;
+      }
+      .sparkles span:nth-child(6) {
+        top: 18%;
+        left: 52%;
+        animation-delay: 2.8s;
+      }
+      .sparkles span:nth-child(7) {
+        top: 72%;
+        left: 62%;
+        animation-delay: 3.1s;
+      }
+      .sparkles span:nth-child(8) {
+        top: 40%;
+        left: 92%;
+        animation-delay: 1.4s;
+      }
+
+      @keyframes twinkle {
+        0%,
+        100% {
+          transform: scale(0.5);
+          opacity: 0.15;
+        }
+        50% {
+          transform: scale(1.9);
+          opacity: 0.8;
+        }
+      }
+
+      .app {
+        position: relative;
+        z-index: 1;
+        min-height: 100vh;
+      }
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 14px clamp(16px, 3vw, 28px);
+        backdrop-filter: blur(14px);
+        background: rgba(255, 248, 238, 0.75);
+        border-bottom: 1px solid var(--line);
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 800;
+        color: var(--ink);
+        text-decoration: none;
+      }
+
+      .robot-dot {
+        width: 42px;
+        height: 42px;
+        border-radius: 14px;
+        background:
+          radial-gradient(circle at 35% 35%, #fff 0 10%, transparent 11%),
+          radial-gradient(circle at 65% 35%, #fff 0 10%, transparent 11%),
+          linear-gradient(180deg, var(--purple), var(--pink));
+        box-shadow:
+          inset 0 -6px 0 rgba(0, 0, 0, 0.08),
+          0 10px 20px rgba(124, 92, 255, 0.25);
+        position: relative;
+        animation: bob 2.6s ease-in-out infinite;
+      }
+      .robot-dot::before {
+        content: "";
+        position: absolute;
+        width: 18px;
+        height: 6px;
+        border-radius: 999px;
+        background: #fff;
+        bottom: 9px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      @keyframes bob {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-4px);
+        }
+      }
+
+      .brand span {
+        font-family: "Baloo 2", cursive;
+        font-size: 1.2rem;
+        letter-spacing: 0.02em;
+      }
+
+      .controls {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        appearance: none;
+        border: none;
+        cursor: pointer;
+        font: inherit;
+        font-weight: 800;
+        color: var(--ink);
+        background: var(--paper-strong);
+        border: 1px solid rgba(34, 34, 59, 0.08);
+        border-radius: 999px;
+        padding: 12px 16px;
+        box-shadow: var(--shadow);
+        transition:
+          transform 0.2s ease,
+          background 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+      .btn:hover {
+        transform: translateY(-2px) scale(1.03);
+      }
+      .btn:active {
+        transform: translateY(0) scale(0.98);
+      }
+      .btn.primary {
+        background: linear-gradient(135deg, var(--orange), var(--yellow));
+      }
+      .btn.secondary {
+        background: linear-gradient(135deg, #fff, #fff3e1);
+      }
+
+      .progress {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: min(260px, 52vw);
+      }
+      .progress-bar {
+        flex: 1;
+        height: 10px;
+        border-radius: 999px;
+        background: rgba(34, 34, 59, 0.08);
+        overflow: hidden;
+      }
+      .progress-fill {
+        width: 14.28%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          var(--purple),
+          var(--pink),
+          var(--orange)
+        );
+        border-radius: 999px;
+        transition: width 0.35s ease;
+      }
+      .progress-text {
+        font-weight: 800;
+        color: var(--muted);
+        min-width: 58px;
+        text-align: right;
+      }
+
+      main {
+        padding: clamp(18px, 3vw, 28px);
+        display: grid;
+        place-items: center;
+      }
+
+      .deck {
+        width: 100%;
+        max-width: var(--slide-w);
+      }
+
+      .slide {
+        display: none;
+        min-height: min(78vh, 760px);
+        padding: clamp(22px, 4vw, 42px);
+        border-radius: var(--radius);
+        background:
+          linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.84),
+            rgba(255, 255, 255, 0.75)
+          ),
+          linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.5),
+            rgba(255, 255, 255, 0.28)
+          );
+        backdrop-filter: blur(18px);
+        box-shadow: var(--shadow);
+        border: 1px solid rgba(255, 255, 255, 0.68);
+        position: relative;
+        overflow: hidden;
+        animation: slideIn 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+      }
+      .slide.active {
+        display: grid;
+      }
+
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: perspective(1000px) rotateX(6deg) translateY(28px)
+            scale(0.975);
+        }
+        to {
+          opacity: 1;
+          transform: perspective(1000px) rotateX(0) translateY(0) scale(1);
+        }
+      }
+
+      .slide::before {
+        content: "";
+        position: absolute;
+        inset: -40% auto auto -10%;
+        width: 240px;
+        height: 240px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.62),
+          rgba(255, 255, 255, 0)
+        );
+        animation: orbFloat 9s ease-in-out infinite;
+        pointer-events: none;
+      }
+
+      .slide::after {
+        content: "";
+        position: absolute;
+        inset: auto -40px -40px auto;
+        width: 180px;
+        height: 180px;
+        border-radius: 36px;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 140, 66, 0.18),
+          rgba(124, 92, 255, 0.14)
+        );
+        transform: rotate(18deg);
+        animation: floatCorner 7s ease-in-out infinite;
+      }
+
+      @keyframes orbFloat {
+        0%,
+        100% {
+          transform: translate(0, 0) scale(1);
+        }
+        50% {
+          transform: translate(30px, 20px) scale(1.08);
+        }
+      }
+      @keyframes floatCorner {
+        0%,
+        100% {
+          transform: rotate(18deg) translateY(0);
+        }
+        50% {
+          transform: rotate(24deg) translateY(-10px);
+        }
+      }
+
+      .slide-grid {
+        display: grid;
+        gap: 24px;
+        align-content: start;
+        position: relative;
+        z-index: 1;
+      }
+
+      .title-slide {
+        grid-template-columns: 1.1fr 0.9fr;
+        align-items: center;
+        min-height: 70vh;
+      }
+      .content-two {
+        grid-template-columns: 1fr 1fr;
+        align-items: start;
+      }
+      .content-one {
+        grid-template-columns: 1fr;
+        align-items: start;
+        max-width: 70ch;
+      }
+      .demo-layout {
+        grid-template-columns: 1.05fr 0.95fr;
+        align-items: center;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        width: max-content;
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.72);
+        border: 1px solid rgba(34, 34, 59, 0.08);
+        font-weight: 800;
+        color: var(--muted);
+        margin-bottom: 12px;
+      }
+
+      h1,
+      h2,
+      h3 {
+        font-family: "Baloo 2", cursive;
+        line-height: 0.95;
+        margin: 0;
+        letter-spacing: -0.02em;
+      }
+      h1 {
+        font-size: clamp(3rem, 8vw, 6.4rem);
+        max-width: 8ch;
+      }
+      h2 {
+        font-size: clamp(2.2rem, 5vw, 4.2rem);
+        max-width: 12ch;
+      }
+      h3 {
+        font-size: clamp(1.35rem, 2vw, 1.8rem);
+      }
+      p {
+        margin: 0;
+        font-size: clamp(1rem, 1.8vw, 1.2rem);
+        line-height: 1.6;
+        color: var(--muted);
+      }
+      .lead {
+        max-width: 58ch;
+        font-size: clamp(1.05rem, 2vw, 1.25rem);
+      }
+
+      .robot-visual {
+        min-height: 420px;
+        display: grid;
+        place-items: center;
+      }
+
+      .robot {
+        width: min(420px, 100%);
+        border-radius: 28px;
+        overflow: hidden;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+        border: 1px solid rgba(34, 34, 59, 0.08);
+        background: #fff;
+        transform-origin: center;
+        animation: cardFloat 4.2s ease-in-out infinite;
+      }
+
+      .robot img,
+      .demo-image img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      @keyframes cardFloat {
+        0%,
+        100% {
+          transform: translateY(0) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-10px) rotate(-1deg);
+        }
+      }
+
+      .big-list {
+        display: grid;
+        gap: 14px;
+        margin-top: 8px;
+      }
+
+      .big-item {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 14px;
+        align-items: start;
+        padding: 16px 18px;
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.7);
+        border: 1px solid rgba(34, 34, 59, 0.08);
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.05);
+        transition:
+          transform 0.22s ease,
+          box-shadow 0.22s ease;
+      }
+      .big-item:hover {
+        transform: translateY(-4px) scale(1.01);
+        box-shadow: 0 16px 30px rgba(0, 0, 0, 0.09);
+      }
+
+      .icon {
+        width: 46px;
+        height: 46px;
+        border-radius: 14px;
+        display: grid;
+        place-items: center;
+        font-size: 1.25rem;
+        font-weight: 800;
+        color: var(--ink);
+        background: linear-gradient(135deg, var(--yellow), #fff1bc);
+        animation: iconPulse 2.8s ease-in-out infinite;
+      }
+
+      @keyframes iconPulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.08);
+        }
+      }
+
+      .visual-box {
+        border-radius: 26px;
+        min-height: 320px;
+        background:
+          linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.76),
+            rgba(255, 255, 255, 0.62)
+          ),
+          radial-gradient(
+            circle at 20% 20%,
+            rgba(123, 92, 255, 0.18),
+            transparent 24%
+          ),
+          radial-gradient(
+            circle at 70% 30%,
+            rgba(255, 111, 174, 0.18),
+            transparent 24%
+          ),
+          radial-gradient(
+            circle at 50% 90%,
+            rgba(255, 209, 102, 0.22),
+            transparent 32%
+          );
+        border: 1px solid rgba(34, 34, 59, 0.08);
+        position: relative;
+        overflow: hidden;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+      }
+
+      .image-box {
+        min-height: 360px;
+        padding: 12px;
+        display: grid;
+        place-items: center;
+      }
+      .image-box img {
+        width: 100%;
+        height: 100%;
+        min-height: 320px;
+        object-fit: cover;
+        border-radius: 22px;
+        border: 1px solid rgba(34, 34, 59, 0.08);
+        box-shadow: 0 16px 30px rgba(0, 0, 0, 0.08);
+        background: #fff;
+      }
+
+      .demo-image {
+        min-height: 380px;
+        border-radius: 28px;
+        overflow: hidden;
+        border: 1px solid rgba(34, 34, 59, 0.08);
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+        background: #fff;
+        animation: cardFloat 4s ease-in-out infinite;
+      }
+
+      .steps {
+        display: grid;
+        gap: 12px;
+        margin-top: 14px;
+      }
+      .step {
+        padding: 15px 16px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.72);
+        border: 1px solid rgba(34, 34, 59, 0.08);
+        font-weight: 700;
+        transition:
+          transform 0.2s ease,
+          background 0.2s ease;
+      }
+      .step:hover {
+        transform: translateX(6px);
+        background: rgba(255, 255, 255, 0.96);
+      }
+      .step strong {
+        color: var(--ink);
+      }
+
+      .code-box {
+        margin-top: 12px;
+        padding: 16px 18px;
+        border-radius: 22px;
+        background: #1f2331;
+        color: #f6f7fb;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 0.98rem;
+        line-height: 1.7;
+        box-shadow: 0 16px 28px rgba(31, 35, 49, 0.22);
+        overflow: auto;
+        white-space: pre-wrap;
+        position: relative;
+      }
+      .code-box::after {
+        content: "● ● ●";
+        position: absolute;
+        top: 10px;
+        right: 16px;
+        color: #ffb86b;
+        font-size: 0.82rem;
+        letter-spacing: 0.18em;
+        opacity: 0.9;
+      }
+
+      .quiz {
+        display: grid;
+        gap: 14px;
+        margin-top: 16px;
+      }
+      .qa {
+        padding: 18px;
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.74);
+        border: 1px solid rgba(34, 34, 59, 0.08);
+        transition: transform 0.22s ease;
+      }
+      .qa:hover {
+        transform: translateY(-4px);
+      }
+
+      .footer-note {
+        margin-top: 18px;
+        font-weight: 800;
+        color: var(--purple);
+      }
+
+      .chip-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 16px;
+      }
+      .chip {
+        padding: 10px 16px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.75);
+        border: 1px solid rgba(34, 34, 59, 0.08);
+        font-weight: 800;
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.05);
+      }
+
+      .quote-box {
+        margin-top: 16px;
+        padding: 20px 22px;
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.78);
+        border: 1px dashed rgba(124, 92, 255, 0.4);
+        font-family: "Baloo 2", cursive;
+        font-size: clamp(1.1rem, 2vw, 1.4rem);
+        color: var(--ink);
+      }
+
+      .icon-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+        margin-top: 8px;
+      }
+      @media (max-width: 640px) {
+        .icon-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .icon-visual {
+        display: grid;
+        place-items: center;
+        text-align: center;
+        padding: 24px;
+        height: 100%;
+      }
+      .icon-visual .big-emoji {
+        font-size: 5rem;
+        line-height: 1;
+        animation: iconPulse 1.6s ease-in-out infinite;
+      }
+
+      .slide-content > * {
+        /* opacity:0; */
+        will-change: transform, opacity;
+      }
+
+      .slide.active .anim-pop {
+        animation: popIn 0.95s cubic-bezier(0.18, 1.12, 0.28, 1) both;
+      }
+      .slide.active .anim-title {
+        animation: titleBurst 1s cubic-bezier(0.18, 1.08, 0.24, 1) both;
+      }
+      .slide.active .anim-left {
+        animation: slideLeftIn 0.9s cubic-bezier(0.2, 0.9, 0.2, 1) both;
+      }
+      .slide.active .anim-right {
+        animation: slideRightIn 0.9s cubic-bezier(0.2, 0.9, 0.2, 1) both;
+      }
+      .slide.active .anim-up {
+        animation: fadeUpIn 0.8s cubic-bezier(0.22, 0.8, 0.22, 1) both;
+      }
+      .slide.active .anim-zoom {
+        animation: zoomReveal 1s cubic-bezier(0.18, 0.88, 0.2, 1) both;
+      }
+      .slide.active .anim-flip {
+        animation: flipSoft 1s cubic-bezier(0.2, 0.9, 0.2, 1) both;
+        transform-origin: center;
+        backface-visibility: hidden;
+      }
+
+      .delay-1 {
+        animation-delay: 0.08s !important;
+      }
+      .delay-2 {
+        animation-delay: 0.18s !important;
+      }
+      .delay-3 {
+        animation-delay: 0.28s !important;
+      }
+      .delay-4 {
+        animation-delay: 0.38s !important;
+      }
+      .delay-5 {
+        animation-delay: 0.48s !important;
+      }
+      .delay-6 {
+        animation-delay: 0.58s !important;
+      }
+      .delay-7 {
+        animation-delay: 0.68s !important;
+      }
+
+      @keyframes popIn {
+        0% {
+          opacity: 0;
+          transform: scale(0.72) rotate(-7deg);
+        }
+        65% {
+          opacity: 1;
+          transform: scale(1.06) rotate(1deg);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1) rotate(0);
+        }
+      }
+
+      @keyframes titleBurst {
+        0% {
+          opacity: 0;
+          transform: translateY(48px) scale(0.72) rotate(-3deg);
+          filter: blur(6px);
+        }
+        55% {
+          opacity: 1;
+          transform: translateY(-6px) scale(1.06) rotate(0.8deg);
+          filter: blur(0);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0) scale(1) rotate(0);
+          filter: blur(0);
+        }
+      }
+
+      @keyframes slideLeftIn {
+        0% {
+          opacity: 0;
+          transform: translateX(-90px) rotate(-2deg);
+        }
+        70% {
+          opacity: 1;
+          transform: translateX(8px) rotate(0.4deg);
+        }
+        100% {
+          opacity: 1;
+          transform: translateX(0) rotate(0);
+        }
+      }
+
+      @keyframes slideRightIn {
+        0% {
+          opacity: 0;
+          transform: translateX(90px) rotate(2deg);
+        }
+        70% {
+          opacity: 1;
+          transform: translateX(-8px) rotate(-0.4deg);
+        }
+        100% {
+          opacity: 1;
+          transform: translateX(0) rotate(0);
+        }
+      }
+
+      @keyframes fadeUpIn {
+        0% {
+          opacity: 0;
+          transform: translateY(44px);
+          filter: blur(4px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+          filter: blur(0);
+        }
+      }
+
+      @keyframes zoomReveal {
+        0% {
+          opacity: 0;
+          transform: scale(0.82);
+        }
+        65% {
+          opacity: 1;
+          transform: scale(1.03);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      @keyframes flipSoft {
+        0% {
+          opacity: 0;
+          transform: perspective(800px) rotateY(26deg) scale(0.94);
+        }
+        100% {
+          opacity: 1;
+          transform: perspective(800px) rotateY(0) scale(1);
+        }
+      }
+
+      .slide-nav-mobile {
+        display: none;
+        justify-content: center;
+        gap: 12px;
+        padding: 0 18px 22px;
+      }
+
+      kbd {
+        font-family: inherit;
+        font-weight: 800;
+        padding: 4px 8px;
+        border-radius: 10px;
+        background: #fff;
+        border: 1px solid rgba(34, 34, 59, 0.1);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      }
+
+      .life-demo {
+        display: grid;
+        gap: 16px;
+        padding: 22px;
+        align-content: center;
+        min-height: 100%;
+      }
+
+      .scene {
+        background: rgba(255, 255, 255, 0.84);
+        border: 1px solid rgba(34, 34, 59, 0.08);
+        border-radius: 24px;
+        padding: 18px;
+        min-height: 140px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 12px 26px rgba(0, 0, 0, 0.05);
+      }
+      .scene h3 {
+        margin-bottom: 8px;
+        position: relative;
+        z-index: 2;
+      }
+      .scene p {
+        position: relative;
+        z-index: 2;
+      }
+
+      .car-road {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 20px;
+        height: 8px;
+        background: repeating-linear-gradient(
+          90deg,
+          #cfd5de 0 18px,
+          transparent 18px 34px
+        );
+        opacity: 0.9;
+      }
+
+      .car {
+        position: absolute;
+        left: -80px;
+        bottom: 28px;
+        width: 74px;
+        height: 34px;
+        border-radius: 18px 22px 12px 12px;
+        background: linear-gradient(135deg, var(--sky), var(--purple));
+        animation: drive 4.8s ease-in-out infinite;
+        box-shadow: 0 12px 20px rgba(108, 103, 255, 0.2);
+      }
+      .car::before,
+      .car::after {
+        content: "";
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: #283046;
+        bottom: -8px;
+        box-shadow: inset 0 0 0 4px #9098ad;
+      }
+      .car::before {
+        left: 10px;
+      }
+      .car::after {
+        right: 10px;
+      }
+
+      @keyframes drive {
+        0% {
+          left: -80px;
+          transform: translateY(0);
+        }
+        45% {
+          left: calc(100% - 110px);
+          transform: translateY(-2px);
+        }
+        50% {
+          left: calc(100% - 110px);
+          transform: scaleX(1);
+        }
+        51% {
+          transform: scaleX(-1);
+        }
+        95% {
+          left: -20px;
+          transform: scaleX(-1) translateY(-2px);
+        }
+        100% {
+          left: -80px;
+          transform: scaleX(1);
+        }
+      }
+
+      .lamp-scene {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        height: 100%;
+        min-height: 120px;
+        position: relative;
+      }
+
+      .sun-moon {
+        position: absolute;
+        top: 10px;
+        right: 18px;
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        background: var(--yellow);
+        box-shadow: 0 0 26px rgba(255, 209, 102, 0.6);
+        animation: dayNight 4.6s ease-in-out infinite;
+      }
+
+      @keyframes dayNight {
+        0%,
+        35% {
+          background: var(--yellow);
+          box-shadow: 0 0 26px rgba(255, 209, 102, 0.6);
+          transform: scale(1);
+        }
+        50%,
+        85% {
+          background: #dfe6ff;
+          box-shadow: 0 0 26px rgba(124, 92, 255, 0.25);
+          transform: scale(0.92);
+        }
+        100% {
+          background: var(--yellow);
+          box-shadow: 0 0 26px rgba(255, 209, 102, 0.6);
+          transform: scale(1);
+        }
+      }
+
+      .pole {
+        width: 10px;
+        height: 90px;
+        background: #7c8796;
+        border-radius: 999px;
+        margin-left: 26px;
+        position: relative;
+      }
+      .pole::before {
+        content: "";
+        position: absolute;
+        top: 8px;
+        left: -18px;
+        width: 42px;
+        height: 22px;
+        border-radius: 22px 22px 8px 8px;
+        background: #9ca7b7;
+      }
+
+      .lamp-glow {
+        position: absolute;
+        top: 26px;
+        left: -36px;
+        width: 78px;
+        height: 78px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(255, 230, 90, 0.75),
+          rgba(255, 230, 90, 0)
+        );
+        opacity: 0;
+        animation: lampOn 4.6s ease-in-out infinite;
+      }
+
+      @keyframes lampOn {
+        0%,
+        35% {
+          opacity: 0;
+        }
+        50%,
+        85% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+        }
+      }
+
+      @media (max-width: 900px) {
+        .title-slide,
+        .content-two,
+        .demo-layout {
+          grid-template-columns: 1fr;
+        }
+        .robot-visual {
+          min-height: 280px;
+        }
+        .slide {
+          min-height: auto;
+        }
+      }
+
+      .slide img {
+        cursor: zoom-in;
+      }
+
+      .lightbox-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(20, 18, 30, 0.92);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 999;
+        cursor: zoom-out;
+        padding: 28px;
+        backdrop-filter: blur(4px);
+      }
+      .lightbox-overlay.active {
+        display: flex;
+      }
+      .lightbox-overlay img {
+        max-width: 92vw;
+        max-height: 92vh;
+        border-radius: 18px;
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+        cursor: zoom-out;
+        animation: lightboxIn 0.22s ease;
+      }
+
+      @keyframes lightboxIn {
+        from {
+          opacity: 0;
+          transform: scale(0.92);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      @media (max-width: 640px) {
+        .topbar {
+          flex-direction: column;
+          align-items: stretch;
+        }
+        .controls {
+          justify-content: space-between;
+        }
+        .progress {
+          min-width: unset;
+          width: 100%;
+        }
+        .slide-nav-mobile {
+          display: flex;
+        }
+        h1 {
+          max-width: 10ch;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="floating-shape shape-1"></div>
+    <div class="floating-shape shape-2"></div>
+    <div class="floating-shape shape-3"></div>
+
+    <div class="sparkles" aria-hidden="true">
+      <span></span><span></span><span></span><span></span> <span></span
+      ><span></span><span></span><span></span>
+    </div>
+
+    <div class="app">
+      <header class="topbar" aria-label="Barre de navigation du diaporama">
+        <a href="#" class="brand" aria-label="Accueil du diaporama">
+          <div class="robot-dot" aria-hidden="true"></div>
+          <span>Base de robotique</span>
+        </a>
+
+        <div class="controls">
+          <button
+            class="btn secondary"
+            id="prevBtn"
+            aria-label="Slide précédent"
+          >
+            ← Précédent
+          </button>
+          <div class="progress" aria-label="Progression">
+            <div class="progress-bar" aria-hidden="true">
+              <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">1 / 20</div>
+          </div>
+          <button class="btn primary" id="nextBtn" aria-label="Slide suivant">
+            Suivant →
+          </button>
+        </div>
+      </header>
+
+      <main>
+        <section class="deck" aria-label="Slides de présentation">
+          <article class="slide active" data-slide="1">
+            <div class="slide-grid title-slide slide-content">
+              <div>
+                <div class="eyebrow anim-pop delay-1">STEM KIDS UF</div>
+                <h1 class="anim-title delay-1">
+                  Bienvenue à l’atelier de Robotique 🤖
+                </h1>
+              </div>
+
+              <div class="robot-visual">
+                <div class="robot anim-zoom delay-2" aria-hidden="true">
+                  <img src="./image/robot.png" alt="Image d'un robot" />
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="slide" data-slide="2">
+            <div class="slide-grid content-two slide-content">
+              <div>
+                <div class="eyebrow anim-pop delay-1">Présentation</div>
+                <h2 class="anim-title delay-2">Qui sommes-nous ?</h2>
+                <div class="big-list">
+                  <div class="big-item anim-left delay-3">
+                    <div class="icon">🎓</div>
+                    <div>
+                      <h3>Vos formateurs</h3>
+                      <p>Passionnés de robotique et de sciences.</p>
+                    </div>
+                  </div>
+                  <div class="big-item anim-left delay-4">
+                    <div class="icon">🧩</div>
+                    <div>
+                      <h3>STEM KIDS UF</h3>
+                      <p>
+                        Des ateliers pour découvrir les sciences en s’amusant.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="visual-box icon-visual anim-right delay-3"
+                aria-hidden="true"
+              >
+                <div class="big-emoji">🙋‍♂️🙋‍♀️</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="slide" data-slide="3">
+            <div class="slide-grid content-two slide-content">
+              <div>
+                <div class="eyebrow anim-pop delay-1">Objectifs</div>
+                <h2 class="anim-title delay-2">Aujourd’hui vous allez :</h2>
+                <div class="big-list">
+                  <div class="big-item anim-left delay-3">
+                    <div class="icon">🤖</div>
+                    <div><h3>Découvrir ce qu’est un robot</h3></div>
+                  </div>
+                  <div class="big-item anim-left delay-4">
+                    <div class="icon">⚙️</div>
+                    <div><h3>Voir comment un robot fonctionne</h3></div>
+                  </div>
+                  <div class="big-item anim-left delay-5">
+                    <div class="icon">💻</div>
+                    <div><h3>Programmer votre premier composant</h3></div>
+                  </div>
+                  <div class="big-item anim-left delay-6">
+                    <div class="icon">💡</div>
+                    <div><h3>Allumer votre première LED</h3></div>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="visual-box icon-visual anim-flip delay-3"
+                aria-hidden="true"
+              >
+                <div class="big-emoji">🤖</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="slide" data-slide="4">
+            <div class="slide-grid content-two slide-content">
+              <div>
+                <div class="eyebrow anim-pop delay-1">Brise-glace</div>
+                <h2 class="anim-title delay-2">Qui a déjà vu un robot ?</h2>
+                <p class="lead anim-up delay-3">Où ça ?</p>
+                <div class="chip-list anim-up delay-4">
+                  <div class="chip">🎬 Au cinéma</div>
+                  <div class="chip">📺 À la télévision</div>
+                  <div class="chip">🎮 Dans un jeu vidéo</div>
+                  <div class="chip">🌍 Dans la vraie vie</div>
+                </div>
+              </div>
+
+              <div
+                class="visual-box icon-visual anim-right delay-3"
+                aria-hidden="true"
+              >
+                <div class="big-emoji">🙌</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="slide" data-slide="5">
+            <div class="slide-grid content-two slide-content">
+              <div>
+                <div class="eyebrow anim-pop delay-1">Définition</div>
+                <h2 class="anim-title delay-2">C’est quoi un robot ?</h2>
+                <div class="quote-box anim-up delay-3">
+                  Un robot est une machine capable d’observer son environnement,
+                  de réfléchir grâce à un programme et d’agir automatiquement.
+                </div>
+                <p class="footer-note anim-up delay-4">
+                  Montrer plusieurs exemples.
+                </p>
+              </div>
+
+              <div
+                class="visual-box image-box anim-right delay-3"
+                aria-hidden="true"
+              >
+                <img
+                  src="./image/illustration1.png"
+                  alt="Illustration d'un robot"
+                />
+              </div>
+            </div>
+          </article>
+
+          <article class="slide" data-slide="6">
+            <div class="slide-grid content-two slide-content">
+              <div>
+                <div class="eyebrow anim-pop delay-1">Exemples</div>
+                <h2 class="anim-title delay-2">Où trouve-t-on des robots ?</h2>
+                <div class="icon-grid anim-up delay-3">
+                  <div class="big-item">
+                    <div class="icon">🏠</div>
+                    <div><h3>Maison</h3></div>
+                  </div>
+                  <div class="big-item">
+                    <div class="icon">🏭</div>
+                    <div><h3>Usine</h3></div>
+                  </div>
+                  <div class="big-item">
+                    <div class="icon">🏥</div>
+                    <div><h3>Hôpital</h3></div>
+                  </div>
+                  <div class="big-item">
+                    <div class="icon">🌾</div>
+                    <div><h3>Agriculture</h3></div>
+                  </div>
+                  <div class="big-item">
+                    <div class="icon">🚀</div>
+                    <div><h3>Espace</h3></div>
+                  </div>
+                  <div class="big-item">
+                    <div class="icon">🌊</div>
+                    <div><h3>Océan</h3></div>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="visual-box icon-visual anim-right delay-3"
+                aria-hidden="true"
+              >
+                <div class="big-emoji">🌍</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="slide" data-slide="7">
+            <div class="slide-grid content-two slide-content">
+              <div>
+                <div class="eyebrow anim-pop delay-1">Autour de nous</div>
+                <h2 class="anim-title delay-2">Les robots autour de nous</h2>
+                <div class="chip-list anim-up delay-3">
+                  <div class="chip">🧹 Aspirateur robot</div>
+                  <div class="chip">🛸 Drone</div>
+                  <div class="chip">🌱 Robot tondeuse</div>
+                  <div class="chip">🦾 Bras robotique</div>
+                  <div class="chip">🤖 Robot humanoïde</div>
+                </div>
+                <p class="footer-note anim-up delay-4">
+                  En connaissez-vous d’autres ?
+                </p>
+              </div>
+
+              <div
+                class="visual-box icon-visual anim-right delay-3"
+                aria-hidden="true"
+              >
+                <div class="big-emoji">🧹🛸🦾</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="slide" data-slide="8">
+            <div class="slide-grid content-two slide-content">
+              <div>
+                <div class="eyebrow anim-pop delay-1">Grand schéma</div>
+                <h2 class="anim-title delay-2">Les parties d’un robot</h2>
+                <div class="icon-grid anim-up delay-3">
+                  <div class="big-item">
+                    <div class="icon">🧠</div>
+                    <div>
+                      <h3>Cerveau</h3>
+                      <p><em>Microcontrôleur</em> — ex : Arduino</p>
+                    </div>
+                  </div>
+                  <div class="big-item">
+                    <div class="icon">👀</div>
+                    <div>
+                      <h3>Capteurs</h3>
+                      <p>
+                        <em>Capteur (sensor)</em> — ex : capteur de distance
+                      </p>
+                    </div>
+                  </div>
+                  <div class="big-item">
+                    <div class="icon">💪</div>
+                    <div>
+                      <h3>Actionneurs</h3>
+                      <p><em>Actionneur (actuator)</em> — ex : LED, moteur</p>
+                    </div>
+                  </div>
+                  <div class="big-item">
+                    <div class="icon">🔋</div>
+                    <div>
+                      <h3>Batterie</h3>
+                      <p><em>Alimentation</em> — ex : pile 9V</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="visual-box image-box anim-flip delay-3"
+                aria-hidden="true"
+              >
+                <img
+                  src="./image/Componets.png"
+                  alt="Illustration des 4 parties d'un robot : cerveau, capteurs, actionneurs, batterie"
+                />
+              </div>
+            </div>
+          </article>
+
+          <article class="slide" data-slide="9">
+            <div class="slide-grid content-two slide-content">
+              <div>
+                <div class="eyebrow anim-pop delay-1">Le cerveau</div>
+                <h2 class="anim-title delay-2">Le cerveau du robot</h2>
+                <p class="lead anim-up delay-3">
+                  Une carte Arduino ou Raspberry Pi.
+                </p>
+                <div class="quote-box anim-up delay-4">
+                  Le cerveau reçoit des informations et décide quoi faire.
+                </div>
+              </div>
+
+              <div
+                class="visual-box image-box anim-right delay-3"
+                aria-hidden="true"
+              >
+                <img
+                  src="./image/CarteArduino.jpg"
+                  alt="Carte Arduino, le cerveau du robot"
+                />
+              </div>
+            </div>
+          </article>
+
+          <article class="slide" data-slide="10">
+            <div class="slide-grid content-two slide-content">
+              <div>
+                <div class="eyebrow anim-pop delay-1">Les sens du robot</div>
+                <h2 class="anim-title delay-2">Les capteurs</h2>
+                <div class="chip-list anim-up delay-3">
+                  <div class="chip">📏 Capteur de distance</div>
+                  <div class="chip">🔘 Bouton</div>
+                  <div class="chip">💡 Capteur de lumière</div>
+                </div>
+                <div class="quote-box anim-up delay-4">
+                  Les capteurs sont les yeux, les oreilles ou le toucher du
+                  robot.
+                </div>
+              </div>
+
+              <div
+                class="visual-box image-box anim-right delay-3"
+                aria-hidden="true"
+              >
+                <img src="./image/cpteur.jpg" alt="Illustration des capteurs" />
+              </div>
+            </div>
+          </article>
+
+          <article class="slide" data-slide="11">
+            <div class="slide-grid content-two slide-content">
+              <div>
+                <div class="eyebrow anim-pop delay-1">Passer à l’action</div>
+                <h2 class="anim-title delay-2">Les actionneurs</h2>
+                <div class="chip-list anim-up delay-3">
+                  <div class="chip">💡 LED</div>
+                  <div class="chip">⚙️ Moteur</div>
+                  <div class="chip">🔧 Servomoteur</div>
+                  <div class="chip">🔊 Buzzer</div>
+                </div>
+                <div class="quote-box anim-up delay-4">
+                  Les actionneurs permettent au robot d’agir.
+                </div>
+              </div>
+
+              <div
+                class="visual-box image-box anim-right delay-3"
+                aria-hidden="true"
+              >
+                <img
+                  src="./image/actionneur.jpg"
+                  alt="Illustration des actionneurs"
+                />
+              </div>
+            </div>
+          </article>
+
+          <article class="slide" data-slide="12">
+            <div class="slide-grid content-one slide-content">
+              <div>
+                <div class="eyebrow anim-pop delay-1">Le raisonnement</div>
+                <h2 class="anim-title delay-2">Comment un robot réfléchit ?</h2>
+                <div class="steps">
+                  <div class="step anim-left delay-3">📡 Capteur</div>
+                  <div class="step anim-left delay-4">💻 Carte Arduino</div>
+                  <div class="step anim-left delay-5">🧠 Programme</div>
+                  <div class="step anim-left delay-6">💡 LED ou moteur</div>
+                </div>
+                <div class="quote-box anim-up delay-7">
+                  Si le capteur voit un obstacle, alors le robot s’arrête.
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="slide" data-slide="13">
+            <div class="slide-grid content-two slide-content">
+              <div>
+                <div class="eyebrow anim-pop delay-1">Notre projet</div>
+                <h2 class="anim-title delay-2">
+                  Aujourd’hui, on contrôle une LED
+                </h2>
+                <div class="quote-box anim-up delay-3">
+                  Savez-vous ce qu’est une LED ?
+                </div>
+              </div>
+
+              <div
+                class="visual-box icon-visual anim-right delay-3"
+                aria-hidden="true"
+              >
+                <div class="big-emoji">💡</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="slide" data-slide="14">
+            <div class="slide-grid content-two slide-content">
+              <div>
+                <div class="eyebrow anim-pop delay-1">La LED</div>
+                <h2 class="anim-title delay-2">C’est quoi une LED ?</h2>
+                <div class="big-list">
+                  <div class="big-item anim-left delay-3">
+                    <div class="icon">💡</div>
+                    <div><h3>Une petite lampe</h3></div>
+                  </div>
+                  <div class="big-item anim-left delay-4">
+                    <div class="icon">🔋</div>
+                    <div><h3>Elle consomme très peu d’énergie</h3></div>
+                  </div>
+                  <div class="big-item anim-left delay-5">
+                    <div class="icon">🌈</div>
+                    <div>
+                      <h3>On en trouve partout, de toutes les couleurs</h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="visual-box icon-visual anim-right delay-3"
+                aria-hidden="true"
+              >
+                <div class="big-emoji">🔴🟢🔵🟡</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="slide" data-slide="15">
+            <div class="slide-grid content-two slide-content">
+              <div>
+                <div class="eyebrow anim-pop delay-1">Autour de nous</div>
+                <h2 class="anim-title delay-2">Où trouve-t-on des LED ?</h2>
+                <div class="chip-list anim-up delay-3">
+                  <div class="chip">📺 Télécommande</div>
+                  <div class="chip">🚦 Feux de circulation</div>
+                  <div class="chip">⌨️ Clavier</div>
+                  <div class="chip">🚗 Voiture</div>
+                  <div class="chip">🎄 Décorations de Noël</div>
+                </div>
+              </div>
+
+              <div
+                class="visual-box icon-visual anim-right delay-3"
+                aria-hidden="true"
+              >
+                <div class="big-emoji">🚦</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="slide" data-slide="16">
+            <div class="slide-grid demo-layout slide-content">
+              <div>
+                <div class="eyebrow anim-pop delay-1">Démonstration</div>
+                <h2 class="anim-title delay-2">Le formateur branche une LED</h2>
+                <p class="lead anim-up delay-3">Il montre :</p>
+                <div class="steps">
+                  <div class="step anim-left delay-4">💡 Allumer</div>
+                  <div class="step anim-left delay-5">⚫ Éteindre</div>
+                  <div class="step anim-left delay-6">✨ Faire clignoter</div>
+                </div>
+                <p class="footer-note anim-up delay-7">
+                  Les enfants observent.
+                </p>
+              </div>
+
+              <div class="demo-image anim-right delay-3" aria-hidden="true">
+                <img
+                  src="./image/branchement.png"
+                  alt="Branchement d'une LED sur une carte"
+                />
+              </div>
+            </div>
+          </article>
+
+          <article class="slide" data-slide="17">
+            <div class="slide-grid content-two slide-content">
+              <div>
+                <div class="eyebrow anim-pop delay-1">Pratique</div>
+                <h2 class="anim-title delay-2">À vous de jouer !</h2>
+                <div class="quote-box anim-up delay-3">
+                  Objectif : faire allumer une LED.
+                </div>
+                <p class="footer-note anim-up delay-4">
+                  Les enfants travaillent en petits groupes.
+                </p>
+              </div>
+
+              <div
+                class="visual-box icon-visual anim-right delay-3"
+                aria-hidden="true"
+              >
+                <div class="big-emoji">🧑‍🤝‍🧑</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="slide" data-slide="18">
+            <div class="slide-grid content-two slide-content">
+              <div>
+                <div class="eyebrow anim-pop delay-1">Défis</div>
+                <h2 class="anim-title delay-2">À vos défis !</h2>
+                <div class="big-list">
+                  <div class="big-item anim-left delay-3">
+                    <div class="icon">1️⃣</div>
+                    <div><h3>Faire clignoter la LED</h3></div>
+                  </div>
+                  <div class="big-item anim-left delay-4">
+                    <div class="icon">2️⃣</div>
+                    <div><h3>Faire clignoter rapidement</h3></div>
+                  </div>
+                  <div class="big-item anim-left delay-5">
+                    <div class="icon">3️⃣</div>
+                    <div><h3>Inventer un feu de signalisation</h3></div>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="visual-box icon-visual anim-right delay-3"
+                aria-hidden="true"
+              >
+                <div class="big-emoji">🏆</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="slide" data-slide="19">
+            <div class="slide-grid content-two slide-content">
+              <div>
+                <div class="eyebrow anim-pop delay-1">Bilan</div>
+                <h2 class="anim-title delay-2">Ce que nous avons appris</h2>
+                <div class="quiz">
+                  <div class="qa anim-left delay-3">
+                    <h3>C’est quoi un robot ?</h3>
+                  </div>
+                  <div class="qa anim-left delay-4">
+                    <h3>Quelles sont les 4 parties d’un robot ?</h3>
+                  </div>
+                  <div class="qa anim-left delay-5">
+                    <h3>À quoi sert une LED ?</h3>
+                  </div>
+                  <div class="qa anim-left delay-6">
+                    <h3>Où trouve-t-on des robots ?</h3>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="visual-box icon-visual anim-right delay-3"
+                aria-hidden="true"
+              >
+                <div class="big-emoji">🎉</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="slide" data-slide="20">
+            <div class="slide-grid content-one slide-content">
+              <div>
+                <div class="eyebrow anim-pop delay-1">À suivre</div>
+                <h2 class="anim-title delay-2">Aperçu</h2>
+                <div class="quote-box anim-up delay-3">
+                  Nous découvrirons bientôt les capteurs et nous verrons comment
+                  un robot peut « voir », « entendre » ou « sentir » son
+                  environnement.
+                </div>
+              </div>
+            </div>
+          </article>
+        </section>
+      </main>
+
+      <div class="slide-nav-mobile">
+        <button class="btn secondary" id="prevBtnMobile">←</button>
+        <button class="btn primary" id="nextBtnMobile">→</button>
+      </div>
+    </div>
+
+    <div class="lightbox-overlay" id="lightboxOverlay" aria-hidden="true">
+      <img id="lightboxImg" src="" alt="" />
+    </div>
+
+    <script>
+      const slides = Array.from(document.querySelectorAll(".slide"));
+      const progressFill = document.getElementById("progressFill");
+      const progressText = document.getElementById("progressText");
+      const prevBtn = document.getElementById("prevBtn");
+      const nextBtn = document.getElementById("nextBtn");
+      const prevBtnMobile = document.getElementById("prevBtnMobile");
+      const nextBtnMobile = document.getElementById("nextBtnMobile");
+
+      let current = 0;
+
+      function restartAnimations(slide) {
+        const animated = slide.querySelectorAll(
+          ".anim-pop, .anim-title, .anim-left, .anim-right, .anim-up, .anim-zoom, .anim-flip",
+        );
+        animated.forEach((el) => {
+          el.style.animation = "none";
+          void el.offsetWidth;
+          el.style.animation = "";
+        });
+      }
+
+      function updateSlides() {
+        slides.forEach((slide, index) => {
+          slide.classList.toggle("active", index === current);
+        });
+
+        const activeSlide = slides[current];
+        restartAnimations(activeSlide);
+
+        const percent = ((current + 1) / slides.length) * 100;
+        progressFill.style.width = percent + "%";
+        progressText.textContent = `${current + 1} / ${slides.length}`;
+
+        prevBtn.disabled = current === 0;
+        prevBtnMobile.disabled = current === 0;
+        nextBtn.disabled = current === slides.length - 1;
+        nextBtnMobile.disabled = current === slides.length - 1;
+      }
+
+      function nextSlide() {
+        if (current < slides.length - 1) {
+          current++;
+          updateSlides();
+        }
+      }
+
+      function prevSlide() {
+        if (current > 0) {
+          current--;
+          updateSlides();
+        }
+      }
+
+      prevBtn.addEventListener("click", prevSlide);
+      nextBtn.addEventListener("click", nextSlide);
+      prevBtnMobile.addEventListener("click", prevSlide);
+      nextBtnMobile.addEventListener("click", nextSlide);
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowRight" || e.key === "PageDown") nextSlide();
+        if (e.key === "ArrowLeft" || e.key === "PageUp") prevSlide();
+      });
+
+      updateSlides();
+
+      // --- Effet lightbox : clic sur une image = plein écran, second clic = retour ---
+      const lightboxOverlay = document.getElementById("lightboxOverlay");
+      const lightboxImg = document.getElementById("lightboxImg");
+
+      document.querySelectorAll(".slide img").forEach((img) => {
+        img.addEventListener("click", (e) => {
+          e.stopPropagation();
+          lightboxImg.src = img.currentSrc || img.src;
+          lightboxImg.alt = img.alt;
+          lightboxOverlay.classList.add("active");
+        });
+      });
+
+      lightboxOverlay.addEventListener("click", (e) => {
+        e.stopPropagation();
+        lightboxOverlay.classList.remove("active");
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") lightboxOverlay.classList.remove("active");
+      });
+
+      // --- Clic n'importe où sur la page = slide suivant ---
+      document.addEventListener("click", (e) => {
+        if (e.target.closest(".btn")) return;
+        if (e.target.closest("img")) return;
+        if (e.target.closest(".lightbox-overlay")) return;
+        if (e.target.closest("a.brand")) return;
+        nextSlide();
+      });
+
+      // --- Clic droit n'importe où sur la page = slide précédent ---
+      document.addEventListener("contextmenu", (e) => {
+        if (e.target.closest(".btn")) return;
+        if (e.target.closest("img")) return;
+        if (e.target.closest(".lightbox-overlay")) return;
+        if (e.target.closest("a.brand")) return;
+        e.preventDefault();
+        prevSlide();
+      });
+    </script>
+  </body>
+</html>
