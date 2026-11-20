@@ -302,6 +302,11 @@
       grid-template-columns:1fr 1fr;
       align-items:start;
     }
+    .content-one{
+      grid-template-columns:1fr;
+      align-items:start;
+      max-width:70ch;
+    }
     .demo-layout{
       grid-template-columns:1.05fr .95fr;
       align-items:center;
@@ -523,6 +528,55 @@
       margin-top:18px;
       font-weight:800;
       color:var(--purple);
+    }
+
+    .chip-list{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:16px;
+    }
+    .chip{
+      padding:10px 16px;
+      border-radius:999px;
+      background:rgba(255,255,255,.75);
+      border:1px solid rgba(34,34,59,.08);
+      font-weight:800;
+      box-shadow:0 8px 18px rgba(0,0,0,.05);
+    }
+
+    .quote-box{
+      margin-top:16px;
+      padding:20px 22px;
+      border-radius:22px;
+      background:rgba(255,255,255,.78);
+      border:1px dashed rgba(124,92,255,.4);
+      font-family:"Baloo 2", cursive;
+      font-size:clamp(1.1rem, 2vw, 1.4rem);
+      color:var(--ink);
+    }
+
+    .icon-grid{
+      display:grid;
+      grid-template-columns:repeat(2, 1fr);
+      gap:14px;
+      margin-top:8px;
+    }
+    @media (max-width:640px){
+      .icon-grid{grid-template-columns:1fr}
+    }
+
+    .icon-visual{
+      display:grid;
+      place-items:center;
+      text-align:center;
+      padding:24px;
+      height:100%;
+    }
+    .icon-visual .big-emoji{
+      font-size:5rem;
+      line-height:1;
+      animation:iconPulse 1.6s ease-in-out infinite;
     }
 
     .slide-content > *{
@@ -761,6 +815,39 @@
       .slide{min-height:auto}
     }
 
+    .slide img{
+      cursor:zoom-in;
+    }
+
+    .lightbox-overlay{
+      position:fixed;
+      inset:0;
+      background:rgba(20,18,30,.92);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:999;
+      cursor:zoom-out;
+      padding:28px;
+      backdrop-filter:blur(4px);
+    }
+    .lightbox-overlay.active{
+      display:flex;
+    }
+    .lightbox-overlay img{
+      max-width:92vw;
+      max-height:92vh;
+      border-radius:18px;
+      box-shadow:0 30px 80px rgba(0,0,0,.5);
+      cursor:zoom-out;
+      animation:lightboxIn .22s ease;
+    }
+
+    @keyframes lightboxIn{
+      from{opacity:0; transform:scale(.92)}
+      to{opacity:1; transform:scale(1)}
+    }
+
     @media (max-width: 640px){
       .topbar{
         flex-direction:column;
@@ -801,7 +888,7 @@
           <div class="progress-bar" aria-hidden="true">
             <div class="progress-fill" id="progressFill"></div>
           </div>
-          <div class="progress-text" id="progressText">1 / 7</div>
+          <div class="progress-text" id="progressText">1 / 20</div>
         </div>
         <button class="btn primary" id="nextBtn" aria-label="Slide suivant">Suivant →</button>
       </div>
@@ -813,11 +900,8 @@
         <article class="slide active" data-slide="1">
           <div class="slide-grid title-slide slide-content">
             <div>
-              <h1 class="anim-title delay-1">Découvrons la robotique</h1>
-              <p class="lead anim-up delay-3">
-                Un robot, c’est une machine qui <strong>sent</strong>, <strong>réfléchit</strong> et <strong>agit</strong>.
-                Aujourd’hui, on va comprendre l’essentiel puis réaliser notre premier projet.
-              </p>
+              <div class="eyebrow anim-pop delay-1">STEM KIDS UF</div>
+              <h1 class="anim-title delay-1">Bienvenue à l’atelier de Robotique 🤖</h1>
             </div>
 
             <div class="robot-visual">
@@ -831,31 +915,92 @@
         <article class="slide" data-slide="2">
           <div class="slide-grid content-two slide-content">
             <div>
-              <div class="eyebrow anim-pop delay-1">1. C’est quoi un robot ?</div>
-              <h2 class="anim-title delay-2">Un robot fait 3 choses</h2>
+              <div class="eyebrow anim-pop delay-1">Présentation</div>
+              <h2 class="anim-title delay-2">Qui sommes-nous ?</h2>
               <div class="big-list">
                 <div class="big-item anim-left delay-3">
-                  <div class="icon">👀</div>
+                  <div class="icon">🎓</div>
                   <div>
-                    <h3>Il observe</h3>
-                    <p>Avec des <strong>capteurs</strong>, il reçoit des informations : lumière, distance, son, température.</p>
+                    <h3>Vos formateurs</h3>
+                    <p>Passionnés de robotique et de sciences.</p>
                   </div>
                 </div>
                 <div class="big-item anim-left delay-4">
-                  <div class="icon">🧠</div>
+                  <div class="icon">🧩</div>
                   <div>
-                    <h3>Il réfléchit</h3>
-                    <p>Avec une <strong>carte électronique</strong>, il suit un programme.</p>
-                  </div>
-                </div>
-                <div class="big-item anim-left delay-5">
-                  <div class="icon">🦾</div>
-                  <div>
-                    <h3>Il agit</h3>
-                    <p>Avec des <strong>actionneurs</strong>, il bouge, allume ou tourne.</p>
+                    <h3>STEM KIDS UF</h3>
+                    <p>Des ateliers pour découvrir les sciences en s’amusant.</p>
                   </div>
                 </div>
               </div>
+            </div>
+
+            <div class="visual-box icon-visual anim-right delay-3" aria-hidden="true">
+              <div class="big-emoji">🙋‍♂️🙋‍♀️</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="slide" data-slide="3">
+          <div class="slide-grid content-two slide-content">
+            <div>
+              <div class="eyebrow anim-pop delay-1">Objectifs</div>
+              <h2 class="anim-title delay-2">Aujourd’hui vous allez :</h2>
+              <div class="big-list">
+                <div class="big-item anim-left delay-3">
+                  <div class="icon">🤖</div>
+                  <div><h3>Découvrir ce qu’est un robot</h3></div>
+                </div>
+                <div class="big-item anim-left delay-4">
+                  <div class="icon">⚙️</div>
+                  <div><h3>Voir comment un robot fonctionne</h3></div>
+                </div>
+                <div class="big-item anim-left delay-5">
+                  <div class="icon">💻</div>
+                  <div><h3>Programmer votre premier composant</h3></div>
+                </div>
+                <div class="big-item anim-left delay-6">
+                  <div class="icon">💡</div>
+                  <div><h3>Allumer votre première LED</h3></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="visual-box icon-visual anim-flip delay-3" aria-hidden="true">
+              <div class="big-emoji">🤖</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="slide" data-slide="4">
+          <div class="slide-grid content-two slide-content">
+            <div>
+              <div class="eyebrow anim-pop delay-1">Brise-glace</div>
+              <h2 class="anim-title delay-2">Qui a déjà vu un robot ?</h2>
+              <p class="lead anim-up delay-3">Où ça ?</p>
+              <div class="chip-list anim-up delay-4">
+                <div class="chip">🎬 Au cinéma</div>
+                <div class="chip">📺 À la télévision</div>
+                <div class="chip">🎮 Dans un jeu vidéo</div>
+                <div class="chip">🌍 Dans la vraie vie</div>
+              </div>
+            </div>
+
+            <div class="visual-box icon-visual anim-right delay-3" aria-hidden="true">
+              <div class="big-emoji">🙌</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="slide" data-slide="5">
+          <div class="slide-grid content-two slide-content">
+            <div>
+              <div class="eyebrow anim-pop delay-1">Définition</div>
+              <h2 class="anim-title delay-2">C’est quoi un robot ?</h2>
+              <div class="quote-box anim-up delay-3">
+                Un robot est une machine capable d’observer son environnement, de réfléchir grâce à un programme et d’agir automatiquement.
+              </div>
+              <p class="footer-note anim-up delay-4">Montrer plusieurs exemples.</p>
             </div>
 
             <div class="visual-box image-box anim-right delay-3" aria-hidden="true">
@@ -864,119 +1009,210 @@
           </div>
         </article>
 
-        <article class="slide" data-slide="3">
+        <article class="slide" data-slide="6">
           <div class="slide-grid content-two slide-content">
             <div>
-              <div class="eyebrow anim-pop delay-1">2. Les composants clés</div>
-              <h2 class="anim-title delay-2">Les 4 pièces à retenir</h2>
+              <div class="eyebrow anim-pop delay-1">Exemples</div>
+              <h2 class="anim-title delay-2">Où trouve-t-on des robots ?</h2>
+              <div class="icon-grid anim-up delay-3">
+                <div class="big-item"><div class="icon">🏠</div><div><h3>Maison</h3></div></div>
+                <div class="big-item"><div class="icon">🏭</div><div><h3>Usine</h3></div></div>
+                <div class="big-item"><div class="icon">🏥</div><div><h3>Hôpital</h3></div></div>
+                <div class="big-item"><div class="icon">🌾</div><div><h3>Agriculture</h3></div></div>
+                <div class="big-item"><div class="icon">🚀</div><div><h3>Espace</h3></div></div>
+                <div class="big-item"><div class="icon">🌊</div><div><h3>Océan</h3></div></div>
+              </div>
+            </div>
+
+            <div class="visual-box icon-visual anim-right delay-3" aria-hidden="true">
+              <div class="big-emoji">🌍</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="slide" data-slide="7">
+          <div class="slide-grid content-two slide-content">
+            <div>
+              <div class="eyebrow anim-pop delay-1">Autour de nous</div>
+              <h2 class="anim-title delay-2">Les robots autour de nous</h2>
+              <div class="chip-list anim-up delay-3">
+                <div class="chip">🧹 Aspirateur robot</div>
+                <div class="chip">🛸 Drone</div>
+                <div class="chip">🌱 Robot tondeuse</div>
+                <div class="chip">🦾 Bras robotique</div>
+                <div class="chip">🤖 Robot humanoïde</div>
+              </div>
+              <p class="footer-note anim-up delay-4">En connaissez-vous d’autres ?</p>
+            </div>
+
+            <div class="visual-box icon-visual anim-right delay-3" aria-hidden="true">
+              <div class="big-emoji">🧹🛸🦾</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="slide" data-slide="8">
+          <div class="slide-grid content-two slide-content">
+            <div>
+              <div class="eyebrow anim-pop delay-1">Grand schéma</div>
+              <h2 class="anim-title delay-2">Les parties d’un robot</h2>
+              <div class="icon-grid anim-up delay-3">
+                <div class="big-item"><div class="icon">🧠</div><div><h3>Cerveau</h3></div></div>
+                <div class="big-item"><div class="icon">👀</div><div><h3>Capteurs</h3></div></div>
+                <div class="big-item"><div class="icon">💪</div><div><h3>Actionneurs</h3></div></div>
+                <div class="big-item"><div class="icon">🔋</div><div><h3>Batterie</h3></div></div>
+              </div>
+            </div>
+
+            <div class="visual-box image-box anim-flip delay-3" aria-hidden="true">
+              <img src="./image/Componets.png" alt="Illustration des 4 parties d'un robot : cerveau, capteurs, actionneurs, batterie" />
+            </div>
+          </div>
+        </article>
+
+        <article class="slide" data-slide="9">
+          <div class="slide-grid content-two slide-content">
+            <div>
+              <div class="eyebrow anim-pop delay-1">Le cerveau</div>
+              <h2 class="anim-title delay-2">Le cerveau du robot</h2>
+              <p class="lead anim-up delay-3">Une carte Arduino ou Raspberry Pi.</p>
+              <div class="quote-box anim-up delay-4">Le cerveau reçoit des informations et décide quoi faire.</div>
+            </div>
+
+            <div class="visual-box image-box anim-right delay-3" aria-hidden="true">
+              <img src="./image/CarteArduino.png" alt="Carte Arduino, le cerveau du robot" />
+            </div>
+          </div>
+        </article>
+
+        <article class="slide" data-slide="10">
+          <div class="slide-grid content-two slide-content">
+            <div>
+              <div class="eyebrow anim-pop delay-1">Les sens du robot</div>
+              <h2 class="anim-title delay-2">Les capteurs</h2>
+              <div class="chip-list anim-up delay-3">
+                <div class="chip">📏 Capteur de distance</div>
+                <div class="chip">🔘 Bouton</div>
+                <div class="chip">💡 Capteur de lumière</div>
+              </div>
+              <div class="quote-box anim-up delay-4">Les capteurs sont les yeux, les oreilles ou le toucher du robot.</div>
+            </div>
+
+            <div class="visual-box image-box anim-right delay-3" aria-hidden="true">
+              <img src="./image/capteurs.png" alt="Illustration des capteurs" />
+            </div>
+          </div>
+        </article>
+
+        <article class="slide" data-slide="11">
+          <div class="slide-grid content-two slide-content">
+            <div>
+              <div class="eyebrow anim-pop delay-1">Passer à l’action</div>
+              <h2 class="anim-title delay-2">Les actionneurs</h2>
+              <div class="chip-list anim-up delay-3">
+                <div class="chip">💡 LED</div>
+                <div class="chip">⚙️ Moteur</div>
+                <div class="chip">🔧 Servomoteur</div>
+                <div class="chip">🔊 Buzzer</div>
+              </div>
+              <div class="quote-box anim-up delay-4">Les actionneurs permettent au robot d’agir.</div>
+            </div>
+
+            <div class="visual-box image-box anim-right delay-3" aria-hidden="true">
+              <img src="./image/actionneur.png" alt="Illustration des actionneurs" />
+            </div>
+          </div>
+        </article>
+
+        <article class="slide" data-slide="12">
+          <div class="slide-grid content-one slide-content">
+            <div>
+              <div class="eyebrow anim-pop delay-1">Le raisonnement</div>
+              <h2 class="anim-title delay-2">Comment un robot réfléchit ?</h2>
+              <div class="steps">
+                <div class="step anim-left delay-3">📡 Capteur</div>
+                <div class="step anim-left delay-4">💻 Carte Arduino</div>
+                <div class="step anim-left delay-5">🧠 Programme</div>
+                <div class="step anim-left delay-6">💡 LED ou moteur</div>
+              </div>
+              <div class="quote-box anim-up delay-7">Si le capteur voit un obstacle, alors le robot s’arrête.</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="slide" data-slide="13">
+          <div class="slide-grid content-two slide-content">
+            <div>
+              <div class="eyebrow anim-pop delay-1">Notre projet</div>
+              <h2 class="anim-title delay-2">Aujourd’hui, on contrôle une LED</h2>
+              <div class="quote-box anim-up delay-3">Savez-vous ce qu’est une LED ?</div>
+            </div>
+
+            <div class="visual-box icon-visual anim-right delay-3" aria-hidden="true">
+              <div class="big-emoji">💡</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="slide" data-slide="14">
+          <div class="slide-grid content-two slide-content">
+            <div>
+              <div class="eyebrow anim-pop delay-1">La LED</div>
+              <h2 class="anim-title delay-2">C’est quoi une LED ?</h2>
               <div class="big-list">
                 <div class="big-item anim-left delay-3">
-                  <div class="icon">🔋</div>
-                  <div>
-                    <h3>Énergie</h3>
-                    <p>Il faut de l’électricité pour faire fonctionner le robot.</p>
-                  </div>
+                  <div class="icon">💡</div>
+                  <div><h3>Une petite lampe</h3></div>
                 </div>
                 <div class="big-item anim-left delay-4">
-                  <div class="icon">💻</div>
-                  <div>
-                    <h3>Carte programmable</h3>
-                    <p>C’est le cerveau du robot. Exemple : Arduino.</p>
-                  </div>
+                  <div class="icon">🔋</div>
+                  <div><h3>Elle consomme très peu d’énergie</h3></div>
                 </div>
                 <div class="big-item anim-left delay-5">
-                  <div class="icon">📡</div>
-                  <div>
-                    <h3>Capteurs</h3>
-                    <p>Ils aident le robot à sentir le monde autour de lui.</p>
-                  </div>
-                </div>
-                <div class="big-item anim-left delay-6">
-                  <div class="icon">💡</div>
-                  <div>
-                    <h3>Actionneurs</h3>
-                    <p>LED, moteur, buzzer : ils font une action visible ou audible.</p>
-                  </div>
+                  <div class="icon">🌈</div>
+                  <div><h3>On en trouve partout, de toutes les couleurs</h3></div>
                 </div>
               </div>
             </div>
 
-            <div class="visual-box anim-flip delay-3" aria-hidden="true" style="display:grid;place-items:center;padding:24px;">
-              <div style="width:100%; display:grid; gap:14px;">
-                <div class="big-item"><div class="icon">🔋</div><div><h3>Énergie</h3><p>Elle alimente le robot.</p></div></div>
-                <div class="big-item"><div class="icon">💻</div><div><h3>Carte</h3><p>Elle commande le robot.</p></div></div>
-                <div class="big-item"><div class="icon">📡</div><div><h3>Capteur</h3><p>Il reçoit une information.</p></div></div>
-                <div class="big-item"><div class="icon">⚙️</div><div><h3>Actionneur</h3><p>Il exécute une action.</p></div></div>
-              </div>
+            <div class="visual-box icon-visual anim-right delay-3" aria-hidden="true">
+              <div class="big-emoji">🔴🟢🔵🟡</div>
             </div>
           </div>
         </article>
 
-        <article class="slide" data-slide="4">
+        <article class="slide" data-slide="15">
           <div class="slide-grid content-two slide-content">
             <div>
-              <div class="eyebrow anim-pop delay-1">3. Exemples dans la vraie vie</div>
-              <h2 class="anim-title delay-2">Des exemples proches des enfants</h2>
-              <div class="big-list">
-                <div class="big-item anim-left delay-3">
-                  <div class="icon">🚗</div>
-                  <div>
-                    <h3>Voiture télécommandée</h3>
-                    <p>Elle reçoit un ordre et elle avance, recule ou tourne.</p>
-                  </div>
-                </div>
-                <div class="big-item anim-left delay-4">
-                  <div class="icon">💡</div>
-                  <div>
-                    <h3>Lampe qui s’allume quand il fait sombre</h3>
-                    <p>Elle détecte qu’il n’y a plus assez de lumière puis elle s’allume.</p>
-                  </div>
-                </div>
+              <div class="eyebrow anim-pop delay-1">Autour de nous</div>
+              <h2 class="anim-title delay-2">Où trouve-t-on des LED ?</h2>
+              <div class="chip-list anim-up delay-3">
+                <div class="chip">📺 Télécommande</div>
+                <div class="chip">🚦 Feux de circulation</div>
+                <div class="chip">⌨️ Clavier</div>
+                <div class="chip">🚗 Voiture</div>
+                <div class="chip">🎄 Décorations de Noël</div>
               </div>
-              <p class="footer-note anim-up delay-5">Un robot ou un système intelligent reçoit une information puis agit.</p>
             </div>
 
-            <div class="visual-box anim-zoom delay-3" aria-hidden="true">
-              <div class="life-demo">
-                <div class="scene">
-                  <h3>🚗 Voiture télécommandée</h3>
-                  <p>La commande envoie un ordre à la voiture.</p>
-                  <div class="car-road"></div>
-                  <div class="car"></div>
-                </div>
-
-                <div class="scene">
-                  <h3>💡 Lampe automatique</h3>
-                  <p>Quand il fait sombre, la lampe s’allume.</p>
-                  <div class="lamp-scene">
-                    <div class="pole">
-                      <div class="lamp-glow"></div>
-                    </div>
-                    <div class="sun-moon"></div>
-                  </div>
-                </div>
-              </div>
+            <div class="visual-box icon-visual anim-right delay-3" aria-hidden="true">
+              <div class="big-emoji">🚦</div>
             </div>
           </div>
         </article>
 
-        <article class="slide" data-slide="5">
+        <article class="slide" data-slide="16">
           <div class="slide-grid demo-layout slide-content">
             <div>
-              <div class="eyebrow anim-pop delay-1">4. Démonstration</div>
-              <h2 class="anim-title delay-2">Allumer une LED</h2>
-              <p class="lead anim-up delay-3">
-                Une LED est une petite lumière. On la branche à la carte pour lui dire :
-                <strong>allume-toi</strong>.
-              </p>
-
+              <div class="eyebrow anim-pop delay-1">Démonstration</div>
+              <h2 class="anim-title delay-2">Le formateur branche une LED</h2>
+              <p class="lead anim-up delay-3">Il montre :</p>
               <div class="steps">
-                <div class="step anim-left delay-4"><strong>1.</strong> On relie la LED à la carte.</div>
-                <div class="step anim-left delay-5"><strong>2.</strong> On ajoute une résistance pour protéger la LED.</div>
-                <div class="step anim-left delay-6"><strong>3.</strong> On branche le tout correctement.</div>
-                <div class="step anim-left delay-7"><strong>4.</strong> On envoie le programme.</div>
-                <div class="step anim-left delay-7"><strong>5.</strong> La LED s’allume.</div>
+                <div class="step anim-left delay-4">💡 Allumer</div>
+                <div class="step anim-left delay-5">⚫ Éteindre</div>
+                <div class="step anim-left delay-6">✨ Faire clignoter</div>
               </div>
+              <p class="footer-note anim-up delay-7">Les enfants observent.</p>
             </div>
 
             <div class="demo-image anim-right delay-3" aria-hidden="true">
@@ -985,64 +1221,74 @@
           </div>
         </article>
 
-        <article class="slide" data-slide="6">
+        <article class="slide" data-slide="17">
           <div class="slide-grid content-two slide-content">
             <div>
-              <div class="eyebrow anim-pop delay-1">5. Le code complet</div>
-              <h2 class="anim-title delay-2">Programme pour allumer une LED</h2>
-              <p class="lead anim-up delay-3">Voici un programme Arduino complet et très simple pour allumer une LED sur la broche 8.</p>
-              <div class="code-box anim-left delay-4" aria-label="Code complet Arduino">
-void setup() {
-  pinMode(8, OUTPUT);
-  digitalWrite(8, HIGH);
-}
-
-void loop() {
-}
-              </div>
+              <div class="eyebrow anim-pop delay-1">Pratique</div>
+              <h2 class="anim-title delay-2">À vous de jouer !</h2>
+              <div class="quote-box anim-up delay-3">Objectif : faire allumer une LED.</div>
+              <p class="footer-note anim-up delay-4">Les enfants travaillent en petits groupes.</p>
             </div>
 
-            <div class="visual-box anim-flip delay-3" aria-hidden="true" style="display:grid;place-items:center;">
-              <div style="text-align:center; padding:24px;">
-                <div style="font-size:5rem; line-height:1; animation:iconPulse 1.6s ease-in-out infinite;">💡</div>
-                <h3 style="margin-top:8px;">Explication simple</h3>
-                <p><strong>setup()</strong> prépare la carte au début.</p>
-                <p><strong>pinMode(8, OUTPUT)</strong> : la broche 8 peut envoyer un ordre.</p>
-                <p><strong>digitalWrite(8, HIGH)</strong> : la LED s’allume.</p>
-                <p><strong>loop()</strong> : rien à répéter ici.</p>
-              </div>
+            <div class="visual-box icon-visual anim-right delay-3" aria-hidden="true">
+              <div class="big-emoji">🧑‍🤝‍🧑</div>
             </div>
           </div>
         </article>
 
-        <article class="slide" data-slide="7">
+        <article class="slide" data-slide="18">
           <div class="slide-grid content-two slide-content">
             <div>
-              <div class="eyebrow anim-pop delay-1">6. À retenir</div>
-              <h2 class="anim-title delay-2">L’essentiel de la robotique</h2>
-              <div class="quiz">
-                <div class="qa anim-left delay-3">
-                  <h3>Un robot, c’est quoi ?</h3>
-                  <p>Une machine qui reçoit une information, la comprend puis agit.</p>
+              <div class="eyebrow anim-pop delay-1">Défis</div>
+              <h2 class="anim-title delay-2">À vos défis !</h2>
+              <div class="big-list">
+                <div class="big-item anim-left delay-3">
+                  <div class="icon">1️⃣</div>
+                  <div><h3>Faire clignoter la LED</h3></div>
                 </div>
-                <div class="qa anim-left delay-4">
-                  <h3>Les éléments importants</h3>
-                  <p>Énergie, carte programmable, capteurs et actionneurs.</p>
+                <div class="big-item anim-left delay-4">
+                  <div class="icon">2️⃣</div>
+                  <div><h3>Faire clignoter rapidement</h3></div>
                 </div>
-                <div class="qa anim-left delay-5">
-                  <h3>Ce qu’on a appris</h3>
-                  <p>Comment une carte peut allumer une LED grâce à un programme.</p>
+                <div class="big-item anim-left delay-5">
+                  <div class="icon">3️⃣</div>
+                  <div><h3>Inventer un feu de signalisation</h3></div>
                 </div>
               </div>
-              <p class="footer-note anim-up delay-6">Bravo ! Vous connaissez maintenant la base de la robotique.</p>
             </div>
 
-            <div class="visual-box anim-zoom delay-3" aria-hidden="true" style="display:grid;place-items:center;">
-              <div style="text-align:center; padding:20px;">
-                <div style="font-size:5.2rem; animation:iconPulse 1.5s ease-in-out infinite;">🎉</div>
-                <h3>Fin</h3>
-                <p>Merci à tous</p>
-                <p>Navigation : <kbd>←</kbd> <kbd>→</kbd></p>
+            <div class="visual-box icon-visual anim-right delay-3" aria-hidden="true">
+              <div class="big-emoji">🏆</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="slide" data-slide="19">
+          <div class="slide-grid content-two slide-content">
+            <div>
+              <div class="eyebrow anim-pop delay-1">Bilan</div>
+              <h2 class="anim-title delay-2">Ce que nous avons appris</h2>
+              <div class="quiz">
+                <div class="qa anim-left delay-3"><h3>C’est quoi un robot ?</h3></div>
+                <div class="qa anim-left delay-4"><h3>Quelles sont les 4 parties d’un robot ?</h3></div>
+                <div class="qa anim-left delay-5"><h3>À quoi sert une LED ?</h3></div>
+                <div class="qa anim-left delay-6"><h3>Où trouve-t-on des robots ?</h3></div>
+              </div>
+            </div>
+
+            <div class="visual-box icon-visual anim-right delay-3" aria-hidden="true">
+              <div class="big-emoji">🎉</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="slide" data-slide="20">
+          <div class="slide-grid content-one slide-content">
+            <div>
+              <div class="eyebrow anim-pop delay-1">À suivre</div>
+              <h2 class="anim-title delay-2">Aperçu</h2>
+              <div class="quote-box anim-up delay-3">
+                Nous découvrirons bientôt les capteurs et nous verrons comment un robot peut « voir », « entendre » ou « sentir » son environnement.
               </div>
             </div>
           </div>
@@ -1055,6 +1301,10 @@ void loop() {
       <button class="btn secondary" id="prevBtnMobile">←</button>
       <button class="btn primary" id="nextBtnMobile">→</button>
     </div>
+  </div>
+
+  <div class="lightbox-overlay" id="lightboxOverlay" aria-hidden="true">
+    <img id="lightboxImg" src="" alt="" />
   </div>
 
   <script>
@@ -1120,6 +1370,37 @@ void loop() {
     });
 
     updateSlides();
+
+    // --- Effet lightbox : clic sur une image = plein écran, second clic = retour ---
+    const lightboxOverlay = document.getElementById('lightboxOverlay');
+    const lightboxImg = document.getElementById('lightboxImg');
+
+    document.querySelectorAll('.slide img').forEach(img => {
+      img.addEventListener('click', (e) => {
+        e.stopPropagation();
+        lightboxImg.src = img.currentSrc || img.src;
+        lightboxImg.alt = img.alt;
+        lightboxOverlay.classList.add('active');
+      });
+    });
+
+    lightboxOverlay.addEventListener('click', (e) => {
+      e.stopPropagation();
+      lightboxOverlay.classList.remove('active');
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') lightboxOverlay.classList.remove('active');
+    });
+
+    // --- Clic n'importe où sur la page = slide suivant ---
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('.btn')) return;
+      if (e.target.closest('img')) return;
+      if (e.target.closest('.lightbox-overlay')) return;
+      if (e.target.closest('a.brand')) return;
+      nextSlide();
+    });
   </script>
 </body>
 </html>
